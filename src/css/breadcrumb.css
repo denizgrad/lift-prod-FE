@@ -1,0 +1,23 @@
+.breadcrumb{
+    background-color: #558877; /* Açık yeşil rengi #3eb890 ; /*Mavi Tema iken f4f8fb kullanılmıştı*/
+    /*border-bottom:1px solid #eceeef; /*Mavi Tema iken e1ecf4 kullanılmıştı*/
+    padding:25px 10px;
+    max-height: 73px;
+    border-radius: 0!important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.breadcrumb__title{
+    color:#fafafa;
+    font-size: 22px;
+    font-weight: 500;
+    padding-left:2.50vw;
+}
+
+@media (max-width: 599px) {
+    .breadcrumb__title{
+        font-size:15px;
+    }
+    .breadcrumb--tiny{
+        padding: 8px;
+    }
+}

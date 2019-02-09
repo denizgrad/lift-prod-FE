@@ -1,0 +1,83 @@
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div layout="row" layout-align="start center" layout-wrap>
+        <field-filter parent-controller="vm"
+                      get-filter-fields="vm.getFilterFields"
+                      selected-filters="vm.selectedFilters"
+                      on-list-changed="vm.onSelectedFiltersChanged">
+        </field-filter>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Malzeme Cinsi Listesi</span>
+            <div layout="row" layout-align="end center">
+                <div ng-if="vm.tableOptions.query.selected.length > 0">
+                    <delete-record-button endpoint="vm.endpoint"
+                                          callback-on-delete="vm.fetchTableData"
+                                          record-id="vm.tableOptions.query.selected[0]._id.$oid">
+                    </delete-record-button>
+                </div>
+                <md-button class="md-icon-button md-warn"
+                           ng-show="vm.tableOptions.query.selected.length > 0"
+                           ng-click="vm.updateRecord($event)"
+                >
+                    <md-icon class="material-icons">edit</md-icon>
+                    <md-tooltip md-direction="left">Güncelle</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchTableData()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>        
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="true"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+                <tr md-row>
+                    <th md-column md-order-by="name">
+                        Malzeme Cinsi
+                    </th>
+                    <th md-column md-order-by="description">
+                        Oluşturma Tarihi
+                    </th>
+                    <th md-column md-order-by="product">
+                        Oluşturan Kişi
+                    </th>
+                </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+                <tr md-row
+                    ng-repeat="record in vm.tableOptions.query.data track by $index"
+                    md-select="record" md-auto-select="true"
+                >
+                    <td md-cell ng-bind="record.name"></td>
+                    <td md-cell ng-bind="$root.formatDate(record._created_date)"></td>
+                    <td md-cell ng-bind="record._key_created_user.full_name"></td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

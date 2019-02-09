@@ -1,0 +1,124 @@
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div layout="row" layout-align="start center" layout-wrap>
+        <md-menu ng-repeat="filterObj in ::vm.filter_args track by $index"
+                 ng-attr-id="[[::'filter-menu-'+filterObj.keyName]]"
+                 md-position-mode="target-left bottom"
+                 class="soft-action-menu"
+        >
+            <md-button class="soft-action-btn__origin"
+                       ng-class="filterObj.selected.value === -1
+                                    ? 'md-accent md-hue-1'
+                                    : 'md-primary full-border-dotted full-border-radius'"
+                       ng-attr-aria-label="[[::filterObj.display]]"
+                       ng-click="$mdMenu.open()"
+            >
+                <!--<md-icon ng-if="::filterObj.mIcon" class="material-icons" ng-bind="::filterObj.mIcon"></md-icon>
+                <i ng-if="::filterObj.faIcon" class="fa [[::filterObj.faIcon]]"></i>-->
+                [[filterObj.selected.value === -1 ? filterObj.display : filterObj.selected.display]]
+                <i class="soft-action-btn__caret fa fa-caret-down" aria-hidden="true"></i>
+            </md-button>
+            <md-menu-content width="[[::filterObj.childs.length]]">
+                <md-menu-item ng-repeat="filterChild in filterObj.childs track by $index">
+                    <md-button class="left soft-action-menu-btn md-accent"
+                               aria-label="Parça"
+                               ng-click="filterObj.selected=filterChild;vm.fetchAccountList()"
+                    >
+                        [[::filterChild.display]]
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <div class="query-filter__filter query-filter__filter--removable"
+             layout="row" layout-align="start center"
+             ng-repeat="filteredFiled in vm.selectedFilters track by $index">
+            <div ng-click="vm.addNewFilter($event, filteredFiled)">
+                <span class="query-filter__filter-name" ng-bind="filteredFiled.field.display"></span>
+                <span class="query-filter__filter-operator">[[filteredFiled.operator.display]]:</span>
+                <span md-truncate class="query-filter__filter-value padding-left5" ng-bind="filteredFiled.value">
+                </span>
+                <md-icon class="material-icons query-filter__filter-edit-icon">edit</md-icon>
+            </div>
+            <md-icon ng-click="vm.removeFilterByIndex($index)"
+                     class="material-icons  query-filter__filter-remove-icon"
+                     aria-label="Sorguyu Sil" alt="Sorguyu Sil">
+                cancel
+            </md-icon>
+        </div>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Firma Listesi</span>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-icon-button md-warn"
+                           ng-show="vm.tableOptions.query.selected.length > 0"
+                           ng-click="vm.updateRecord($event)"
+                >
+                    <md-icon class="material-icons">edit</md-icon>
+                    <md-tooltip md-direction="left">Güncelle</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchAccountList()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>        
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="true"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+                <tr md-row>
+                    <th md-column md-order-by="code">
+                        Firma Kodu
+                    </th>
+                    <th md-column md-order-by="name">
+                        Firma Adı
+                    </th>
+                    <th md-column md-order-by="tax_administration">
+                        Vergi Dairesi
+                    </th>
+                    <th md-column md-order-by="tax_id_number">
+                        Vergi Numarası
+                    </th>
+                    <th md-column md-order-by="web_address">
+                        Web Adresi
+                    </th>
+                </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+                <tr md-row
+                    ng-repeat="account in vm.tableOptions.query.data track by $index"
+                    md-select="account" md-auto-select="true"
+                >
+                    <td md-cell ng-bind="account.code"></td>
+                    <td md-cell ng-bind="account.name"></td>
+                    <td md-cell ng-bind="account.tax_administration"></td>
+                    <td md-cell ng-bind="account.tax_id_number"></td>
+                    <td md-cell ng-bind="account.web_address"></td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

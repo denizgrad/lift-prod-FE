@@ -1,0 +1,60 @@
+<div class="login-form-component full-width">
+    <!-- Show Message -->
+    <div ng-if="vm.loginError.hasError" class="full-width font16 regular margin-bottom10">
+        <div class="themeErrorColor" ng-attr-data-message-code="vm.loginError.message">
+            * [[::vm.loginError.detail]]
+        </div>
+    </div>
+    <!-- login form -->
+    <form name="loginForm" class="margin-top10 full-width" ng-submit="vm.tryLogin()">
+        <!-- email input -->
+        <md-input-container flex class="md-icon-float md-block">
+            <md-icon class="material-icons">account_circle</md-icon>
+            <label for="loginFormEmail">Email</label>
+            <input required
+                   id="loginFormEmail"
+                   name="email"
+                   type="email"
+                   ng-model="vm.formParams.email">
+            <div ng-messages="loginForm.email.$error" ng-show="loginForm.email.$dirty" role="alert">
+                <div ng-message="required">Giriş yapmak için email gereklidir!</div>
+                <div ng-message="email">Geçerli bir email adresi girin!</div>
+            </div>
+        </md-input-container>
+        <!-- password input -->
+        <md-input-container flex class="md-icon-float md-block">
+            <md-icon class="material-icons">fingerprint</md-icon>
+            <label for="loginFormPassoword">Şifre</label>
+            <input required
+                   id="loginFormPassoword"
+                   name="password"
+                   type="[[vm.showPass ? 'text' : 'password']]"
+                   ng-model="vm.formParams.password">
+            <md-icon ng-click="vm.showPass=!vm.showPass" class="outlineNone cursorPointer">
+                <i class="material-icons">[[vm.showPass ? 'visibility' : 'visibility_off']]</i>
+            </md-icon>
+            <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$dirty ">
+                <div ng-message="required">Giriş yapmak için şifre gereklidir!</div>
+            </div>
+        </md-input-container>
+        <!-- Remember me checkbox -->
+        <md-checkbox class="md-primary themeGreyColor" ng-model="vm.rememberMe">
+            Beni hatırla
+        </md-checkbox>
+        <!-- submit button -->
+        <div layout="column" layout-align="end center">
+            <md-button ng-disabled="!loginForm.$valid || vm.loginPromise"
+                       type="submit"
+                       aria-label="Kullanıcı Girişi"
+                       class="login-form__submit-btn md-raised md-primary full-width margin-LR5"
+            >
+                <i class="fa fa-spinner fa-pulse margin-BT-auto fa-fw" aria-hidden="true"
+                   ng-class="{'hide': !vm.loginPromise}"></i>
+                <span ng-switch="vm.loginPromise" flex class="center capitalcase">
+                    <span ng-switch-when="true">Kontrol Ediliyor...</span>
+                    <span ng-switch-default>Giriş Yap</span>
+                </span>
+            </md-button>
+        </div>
+    </form>
+</div>

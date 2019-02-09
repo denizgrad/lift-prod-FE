@@ -1,0 +1,44 @@
+<div class="relative">
+    <div class="full-width breadcrumb">
+        <span class="breadcrumb__title">Asansör Analizleri</span>
+    </div>
+    <div ng-switch="$state.current.name">
+        <div ng-switch-when="app.analysis.list">
+            <md-button layout="row"
+                       layout-align="center center"
+                       ng-click="vm.createNewAnalysisCategory($event)"
+                       class="action-fab-btn action-fab-btn--has-breadcrump
+                              md-fab md-fab-top-right
+                              md-icon-button md-accent
+                              animated zoomIn"
+            >
+                <md-tooltip md-direction="left">Malzeme Cinsi Tanımla</md-tooltip>
+                <md-icon class="whiteColor">add</md-icon>
+            </md-button>
+        </div>
+        <div ng-switch-when="app.analysis.itemList">
+            <md-button layout="row"
+                       layout-align="center center"
+                       ng-click="vm.createNewAnalysisItem($event)"
+                       class="action-fab-btn action-fab-btn--has-breadcrump
+                              md-fab md-fab-top-right
+                              md-icon-button md-accent
+                              animated zoomIn"
+            >
+                <md-tooltip md-direction="left">Malzeme Tipi Tanımla</md-tooltip>
+                <md-icon class="whiteColor">add</md-icon>
+            </md-button>
+        </div>
+    </div>
+</div>
+
+<div class="erp-tab-wrapper md-whiteframe-z1"
+     layout="row" layout-xs="column" layout-align="start center" layout-align-xs="start center">
+    <a class="full-width" flex ui-sref-active="active" ui-sref="app.analysis.list">Malzeme Cinsi Listesi</a>
+    <a class="full-width" flex ui-sref-active="active" ui-sref="app.analysis.itemList">Malzeme Tipi Listesi</a>
+</div>
+<div class="relative" ng-cloak>
+    <div layout="column" layout-align="top center" class="md-padding">
+        <div class="full-width" ui-view>Yükleniyor...</div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<md-dialog aria-label="Analiz Kalem Tipi"
+           flex flex-gt-sm="60" flex-gt-md="50"
+           ng-class="$root.$mdMedia('gt-sm') ? 'BgC-Transparent' : ''" xmlns="">
+    <md-toolbar md-theme="default" ng-class="$root.$mdMedia('gt-sm') ? '' :'md-whiteframe-1dp'">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="md-heading">Malzeme Cinsi [[vm.dialogTitle]]</span>
+            <md-button class="md-icon-button" ng-click="vm.cancelDialog()">
+                <md-icon aria-label="Kapat" class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear ng-show="vm.promises.createOrUpdate"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <div ng-show="vm.error.hasError"
+         class="padding8 font16 const regular BG-md-content border-dotted-bottom border-d3">
+        <div class="themeWarnColor">
+            <span ng-bind="vm.error.detail"></span>
+        </div>
+    </div>
+    <md-dialog-content ng-if="vm.initDone" layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <md-progress-circular ng-show="vm.promises.fetching" md-diameter="100" class="margin-auto md-primary">
+            </md-progress-circular>
+            <form name="dialogForm" ng-show="!vm.promises.fetching">
+                <div layout="column">
+                    <md-input-container class="full-width">
+                        <label for="item_category">Malzeme Cinsi</label>
+                        <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                        <md-select required id="item_category" name="item_category"
+                                   ng-disabled="vm.is_update"
+                                   ng-attr-data="[[vm.analysisItem._key_analysis_category]]"
+                                   ng-model="vm.analysisItem._key_analysis_category"
+                                   ng-change="vm.loadSettings(vm.analysisItem._key_analysis_category)"
+                                   md-on-close="vm.searchAnalysisCategory=''">
+                            <md-select-header class="select-header">
+                                <input ng-model="vm.searchAnalysisCategory"
+                                       ng-keydown="$event.stopPropagation()"
+                                       type="search" placeholder="Filtrele..." class="filterable header-searchbox _md-text">
+                            </md-select-header>
+                            <md-option ng-repeat="_category in vm.analysisCategories track by $index"
+                                       ng-value="_category._id.$oid"
+                                       ng-bind="_category.name">
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="stockForm.item_category.$error" ng-show="stockForm.item_category.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="analysisItemName">Malzeme Tipi</label>
+                        <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                        <input type="text" required ng-model="vm.analysisItem.name" id="analysisItemName"/>
+                    </md-input-container>
+                </div>
+            </form>
+        </md-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <!--<md-button class="md-primary" ng-click="vm.deleteBtnOptions.onClick()"
+                       ng-disabled="!vm.promises.delete">
+                [[::vm.deleteBtnOptions.label]]
+            </md-button>-->
+            <code hide>[[dialogForm]]</code>
+            <md-button class="md-primary" ng-click="vm.saveBtnOptions.onClick()"
+                       ng-disabled="!dialogForm.$valid || vm.promises.fetching || vm.promises.createOrUpdate">
+                [[::vm.saveBtnOptions.label]]
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

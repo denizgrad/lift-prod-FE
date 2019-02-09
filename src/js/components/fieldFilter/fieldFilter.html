@@ -1,0 +1,16 @@
+<div class="query-filter__filter query-filter__filter--removable"
+     layout="row" layout-align="start center"
+     ng-repeat="filteredFiled in vm.selectedFilters track by $index">
+    <div ng-click="vm.addNewFilter($event, filteredFiled)">
+        <span class="query-filter__filter-name" ng-bind="filteredFiled.field.display"></span>
+        <span class="query-filter__filter-operator">[[filteredFiled.operator.display]]:</span>
+        <span md-truncate class="query-filter__filter-value padding-left5" ng-bind="filteredFiled.value">
+                </span>
+        <md-icon class="material-icons query-filter__filter-edit-icon">edit</md-icon>
+    </div>
+    <md-icon ng-click="vm.removeFilterByIndex($index)"
+             class="material-icons  query-filter__filter-remove-icon"
+             aria-label="Sorguyu Sil" alt="Sorguyu Sil">
+        cancel
+    </md-icon>
+</div>

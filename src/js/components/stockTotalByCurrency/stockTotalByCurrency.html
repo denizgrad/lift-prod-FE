@@ -1,0 +1,18 @@
+<div class="colorful-card-container [[vm.flexGtXsClass]]"
+     flex-xs layout="row" layout-align="space-between center"
+     layout-xs="column" layout-align-xs="center start"
+     ng-repeat="result in vm.resutls track by $index"
+>
+    <div class="colorful-card colorful-card--purple full-width"
+         layout="row" layout-align="space-between center"
+         >
+        <div class="colorful-card__icon-container md-whiteframe-2dp" layout="row" layout-align="center center"
+             ng-bind="result.included.currency.symbol"></div>
+        <div layout="column" layout-align="start end">
+            <span class="colorful-card__desc font13 const">
+                [[result.included.currency.name]] cinsindeki depo maliyeti
+            </span>
+            <span class="colorful-card__title" ng-bind="result.total_price"></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<md-dialog aria-label="Contact Dialog"
+           flex flex-gt-sm="60" flex-gt-md="50">
+    <md-toolbar md-theme="default">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="md-heading">İrtibat</span>
+            <md-button class="md-icon-button" ng-click="vm.cancelDialog()">
+                <md-icon aria-label="Kapat" class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear ng-show="vm.promises.createOrUpdate"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <div ng-show="vm.error.hasError"
+         class="padding8 font16 const regular BG-md-content border-dotted-bottom border-d3">
+        <div class="themeWarnColor">
+            <span ng-bind="vm.error.detail"></span>
+        </div>
+    </div>
+    <md-dialog-content ng-if="vm.initDone" layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <md-progress-circular ng-show="vm.promises.fetching" md-diameter="100" class="margin-auto md-primary">
+            </md-progress-circular>
+            <form name="contactForm" ng-show="!vm.promises.fetching">
+                <div layout="row" class="autocompletedemoCustomTemplate md-whiteframe-z1">
+                    <md-autocomplete
+                            required
+                            class="full-width autocomplete-custom-template"
+                            md-no-cache="vm.acmpAccountSettings.no_cache"
+                            md-selected-item="vm.acmpAccountSettings.selected_item"
+                            md-selected-item-change="vm.acmpAccountSettings.onChange(item)"
+                            md-search-text="vm.acmpAccountSettings.searchText"
+                            md-items="item in vm.acmpAccountSettings.fetchRecords(vm.acmpAccountSettings, vm.acmpAccountSettings.searchText)"
+                            md-item-text="item.name"
+                            md-input-name="contact_key_account"
+                            md-dropdown-position="bottom"
+                            placeholder="Firma"
+                            md-menu-class="autocomplete-custom-template"
+                    >
+                        <md-item-template>
+                        <span class="item-title">
+                            <md-icon class="material-icons md-accent">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                            </md-icon>
+                            <span class="themeDarkColor"
+                                  md-highlight-text="vm.acmpAccountSettings.searchText"
+                                  md-highlight-flags="i"
+                            >
+                                [[item.name]]
+                            </span>
+                        </span>
+                        </md-item-template>
+                        <md-not-found>
+                            <div class="outlineNone" ng-click="vm.createNewAccount($event)">
+                                <i aria-hidden="true"
+                                   class="fa fa-plus-circle themeGreenColor"></i>
+                                <span> Firma bulunamadı. <b class="themeGreenColor">Yeni oluştur</b></span>
+                            </div>
+                        </md-not-found>
+                    </md-autocomplete>
+                </div>
+                <div layout="row" layout-xs="column" class="margin-top8">
+                    <md-input-container class="full-width">
+                        <label for="contact_name">Adı</label>
+                        <md-icon><i class="fa fa-user" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_name" name="contact_name" ng-model="vm.record.name"/>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="contact_surname">Soyadı</label>
+                        <md-icon><i class="fa fa-user" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_surname" name="contact_surname" ng-model="vm.record.surname"/>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-xs="column">
+                    <md-input-container class="full-width">
+                        <label for="contact_code">Kodu</label>
+                        <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_code" name="contact_code" ng-model="vm.record.code"/>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="contact_info">Bilgi</label>
+                        <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_info" name="contact_info" ng-model="vm.record.info"/>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-xs="column md-input-has-value">
+                    <md-input-container class="full-width">
+                        <label for="contact_phone">Sabit Telefon</label>
+                        <md-icon><i class="fa fa-phone" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_phone" name="contact_phone"
+                               ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
+                               ui-options="{clearOnBlur: false}"
+                               ng-model="vm.record.phone"/>
+                    </md-input-container>
+                    <md-input-container class="full-width md-input-has-value">
+                        <label for="contact_mobile">Cep Telefonu</label>
+                        <md-icon><i class="fa fa-mobile" aria-hidden="true"></i></md-icon>
+                        <input type="text" id="contact_mobile" name="contact_mobile"
+                               ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
+                               ui-options="{clearOnBlur: false}"
+                               ng-model="vm.record.mobile"/>
+                    </md-input-container>
+                </div>
+            </form>
+        </md-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.saveBtnOptions.onClick()"
+                       ng-disabled="!contactForm.$valid || vm.promises.fetching || vm.promises.createOrUpdate">
+                [[::vm.saveBtnOptions.label]]
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

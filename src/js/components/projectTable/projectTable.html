@@ -1,0 +1,101 @@
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div layout="row" layout-align="start center" layout-wrap>
+        <field-filter parent-controller="vm"
+                      get-filter-fields="vm.getFilterFields"
+                      selected-filters="vm.selectedFilters"
+                      on-list-changed="vm.fetchProjectList">
+        </field-filter>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Proje Listesi</span>
+            <div layout="row" layout-align="end center">
+                <div ng-if="vm.tableOptions.query.selected.length > 0" layout="row">
+                    <delete-record-button endpoint="vm.endpoint"
+                                          callback-on-delete="vm.fetchProjectList"
+                                          record-id="vm.tableOptions.query.selected[0]._id.$oid">
+                    </delete-record-button>
+                    <md-button class="md-icon-button md-warn"
+                               ng-click="vm.updateRecord($event)"
+                    >
+                        <md-icon class="material-icons">edit</md-icon>
+                        <md-tooltip md-direction="left">Güncelle</md-tooltip>
+                    </md-button>
+                </div>
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchProjectList()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>        
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="true"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+                <tr md-row>
+                    <th md-column md-order-by="name">
+                        Proje Adı
+                    </th>
+                    <th md-column md-order-by="_key_account_owner">
+                        Sahibi Firma
+                    </th>
+                    <th md-column md-order-by="_key_account_contractor">
+                        Kontratçı Firma
+                    </th>
+                    <th md-column md-order-by="status">
+                        Durumu
+                    </th>
+                    <th md-column md-order-by="amount">
+                        Tutar
+                    </th>
+                    <th md-column md-order-by="lift_total">
+                        Asansör Tutar
+                    </th>
+                    <th md-column md-order-by="bid_date">
+                        Teklif Tarihi
+                    </th>
+                    <th md-column md-order-by="start_date">
+                        Başlama Tarihi
+                    </th>
+                </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+                <tr md-row
+                    ng-repeat="project in vm.tableOptions.query.data track by $index"
+                    md-select="project" md-auto-select="true">
+                    <td md-cell ng-bind="project.name"></td>
+                    <td md-cell ng-bind="project._key_account_owner.name"></td>
+                    <td md-cell ng-bind="project._key_account_contractor.name"></td>
+                    <td md-cell ng-bind="project.status"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(project.amount, project._key_currency_amount.code)"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(project.lift_total, project._key_currency_lift_total.code)"></td>
+                    <td md-cell ng-bind="$root.formatDate(project.bid_date)"></td>
+                    <td md-cell ng-bind="$root.formatDate(project.start_date)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

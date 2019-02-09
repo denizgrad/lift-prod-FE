@@ -1,0 +1,101 @@
+<md-dialog aria-label="Firma Güncelleme"
+           flex flex-gt-sm="60" flex-gt-md="50"
+           ng-class="$root.$mdMedia('gt-sm') ? 'BgC-Transparent' : ''" xmlns="">
+    <md-toolbar md-theme="default" ng-class="$root.$mdMedia('gt-sm') ? '' :'md-whiteframe-1dp'">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="md-heading">Firma</span>
+            <md-button class="md-icon-button" ng-click="vm.cancelDialog()">
+                <md-icon aria-label="Kapat" class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear ng-show="vm.promises.createOrUpdate"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <div ng-show="vm.error.hasError"
+         class="padding8 font16 const regular BG-md-content border-dotted-bottom border-d3">
+        <div class="themeWarnColor">
+            <span ng-bind="vm.error.detail"></span>
+        </div>
+    </div>
+    <md-dialog-content ng-if="vm.initDone" layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <md-progress-circular ng-show="vm.promises.fetching" md-diameter="100" class="margin-auto md-primary">
+            </md-progress-circular>
+            <form name="accountForm" ng-show="!vm.promises.fetching">
+            <div layout="row" layout-xs="column" ng-init="vm.formScope=accountForm">
+                <md-input-container class="full-width">
+                    <label for="name">Firma Adı</label>
+                    <md-icon><i class="fa fa-folder-o" aria-hidden="true"></i></md-icon>
+                    <input id="name" type="text" name="name" required ng-model="vm.account.name"/>
+                    <div ng-messages="accountForm.name.$error" ng-show="stockForm.name.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="code">Firma Kodu</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <input id="code" type="text" name="code" ng-model="vm.account.code"/>
+                </md-input-container>
+                <md-input-container class="full-width">
+                    <label for="web_address">Web Adresi</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <input id="web_address" type="text" name="web_address" ng-model="vm.account.web_address"/>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="tax_administration">Vergi Dairesi</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <input id="tax_administration" type="text" name="tax_administration"
+                           ng-model="vm.account.tax_administration"/>
+                </md-input-container>
+                <md-input-container class="full-width">
+                    <label for="tax_id_number">Vergi No</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <input id="tax_id_number" type="text" name="tax_id_number" ng-model="vm.account.tax_id_number"/>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="account_email">Email</label>
+                    <md-icon class="material-icons">email</md-icon>
+                    <input id="account_email" type="email" name="account_email" ng-model="vm.account.email"/>
+                </md-input-container>
+                <md-input-container class="full-width md-input-has-value">
+                    <md-icon class="material-icons">phone</md-icon>
+                    <input ng-model="vm.account.phone" name="accountPhone"
+                           ui-mask="(999) 999-9999" ui-mask-placeholder ui-mask-placeholder-char="_"
+                           ui-options="{clearOnBlur: false}"
+                           placeholder="" type="text">
+                    <div ng-messages="accountForm.accountPhone.$error">
+                        <div ng-message="minlength">
+                            Telefon başında 0 olmadan 10 hane şeklinde girilmelidir.
+                        </div>
+                        <div ng-message="maxlength">
+                            Telefon başında 0 olmadan 10 hane şeklinde girilmelidir.
+                        </div>
+                        <div ng-message="number">
+                            Telefon numaralardan oluşmalıdır.
+                        </div>
+                    </div>
+                </md-input-container>
+            </div>
+            </form>
+        </md-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.deleteBtnOptions.onClick()"
+                       ng-disabled="!vm.promises.delete">
+                [[::vm.deleteBtnOptions.label]]
+            </md-button>
+            <md-button class="md-primary" ng-click="vm.saveBtnOptions.onClick()"
+                       ng-disabled="!accountForm.$valid || vm.promises.fetching || vm.promises.createOrUpdate">
+                [[::vm.saveBtnOptions.label]]
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,52 @@
+.colorful-card{
+    font-family: Roboto;
+    padding: 16px;
+    position: relative;
+    height: 90px;
+    background: white;
+    color: black;
+}
+
+.colorful-card + .colorful-card{
+    margin-left: 8px;
+}
+
+.colorful-card__icon-container{
+    width: 64px;
+    height: 64px;
+    font-size: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    background: whitesmoke;
+}
+
+.colorful-card--purple{
+    background: rgb(116, 96, 238);
+    color: rgb(116, 96, 238);
+    box-shadow: 0 3px 6px 1px rgba(116, 96, 238,.52);
+}
+
+.colorful-card--orange{
+    background:  rgb(255, 196, 0);
+    box-shadow: 0 3px 6px 1px rgba(255, 196, 0, 0.52);
+}
+
+.colorful-card__title{
+    font-size: 24px;
+    color: whitesmoke;
+}
+
+.colorful-card__desc{
+    color: #161616;
+    margin-bottom: 5px;
+}
+@media (max-width: 599px) {
+    .colorful-card-container + .colorful-card-container{
+        padding-top: 8px;
+    }
+}
+@media (min-width: 599px) {
+    .colorful-card-container + .colorful-card-container{
+        padding-left: 8px;
+    }
+}

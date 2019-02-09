@@ -1,0 +1,43 @@
+<div layout="row"
+     class="md-whiteframe-z1 full-width">
+    <md-autocomplete
+              flex
+              ng-disabled="acmpCtrl.acmpSettings.disable"
+              md-selected-item="acmpCtrl.acmpSettings.selected_item"
+              md-selected-item-change="acmpCtrl.acmpSettings.onChange(item)"
+              md-search-text="acmpCtrl.acmpSettings.searchText"
+              md-items="item in acmpCtrl.fetchStocks(acmpCtrl.acmpSettings.searchText)"
+              md-item-text="item.name"
+              md-input-name="stock_autocomplete"
+              md-dropdown-position="bottom"
+              placeholder="Stok seçin..."
+    >
+        <md-item-template>
+            <span class="item-title">
+                <md-icon class="material-icons md-accent">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                </md-icon>
+                <span class="themeDarkColor"
+                      md-highlight-text="acmpCtrl.acmpSettings.searchText"
+                      md-highlight-flags="i"
+                >
+                    [[item.name]]
+                </span>
+            </span>
+            <span class="item-metadata">
+                <strong>Barkod: </strong> [[item.barcode]]
+                <strong>Mevcut Miktar: </strong> [[item.quantity]]
+            </span>
+        </md-item-template>
+       <md-not-found>
+            <div class="outlineNone">
+                <i class="fa fa-info themeWarnColor" aria-hidden="true"></i>
+                <span>
+                    [[acmpCtrl.acmpSettings.searchText.length > 2
+                    ? 'Böyle bir stok bulunamadı'
+                    : 'En az 3 karakter yazmalısınız']]
+                </span>
+            </div>
+        </md-not-found>
+    </md-autocomplete>
+</div>

@@ -1,0 +1,218 @@
+<div ng-if="vm.bulkErrors.hasError" class="alert alert-danger">
+    <h1 ng-bind="vm.bulkErrors.title"></h1>
+    <p>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="_error in vm.bulkErrors.errors track by $index">
+            [[_error.index + 1]] - [[_error.detail]]
+        </li>
+    </ul>
+    </p>
+</div>
+<md-input-container md-no-float class="margin-top0 margin-bottom5" style="height:33px;">
+    <md-icon class="material-icons"><i class="fa fa-barcode" aria-hidden="true"></i></md-icon>
+    <input type="text" name="addwithbarcode" placeholder="Barkod ile ekle"
+           class="add-with-barcode-input"
+           autofocus
+           ng-model="vm.addWithBarcode.value"
+           ng-keydown="vm.addwithBarcodeKeyDownListener($event, vm.addWithBarcode.value)"/>
+</md-input-container>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar BG-blue-linear-light md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+                <md-button class="md-accent md-icon-button" ng-click="vm.addNewToList({})">
+                    <md-icon class="md-icon-button">add_circle_outline</md-icon>
+                    <md-tooltip md-direction="left">Yeni satır ekle</md-tooltip>
+                </md-button>
+            </div>
+            <div layout="row">
+                <md-menu md-position-mode="target-right bottom" class="soft-action-menu">
+                    <md-button class="md-accent"
+                               aria-label="Ayarlar"
+                               ng-click="$mdMenu.open()">
+                        <md-icon class="material-icons">settings</md-icon>
+                        Ayarlar
+                    </md-button>
+                    <md-menu-content width="3">
+                        <md-menu-item class="BG-blue-linear-light">
+                            <span class="themeGreyColorLight">Varsayılan İşlem Tipi</span>
+                        </md-menu-item>
+                        <md-menu-item ng-repeat="action_type in ::vm.enumTypes.actionTypes.items track by $index">
+                            <md-button md-prevent-menu-close
+                                       class="md-accent" aria-label="[[::action_type.display]]"
+                                       ng-click="vm.bulkDefaults.actionType=action_type.id">
+                                <md-icon class="material-icons">
+                                    [[vm.bulkDefaults.actionType==action_type.id
+                                        ? 'radio_button_checked'
+                                        : 'radio_button_unchecked'
+                                    ]]
+                                </md-icon>
+                                [[::action_type.display]]
+                            </md-button>
+                        </md-menu-item>
+                        <md-divider></md-divider>
+                        <md-menu-item class="BG-blue-linear-light">
+                            <span class="themeGreyColorLight">İrsaliye Ayarları</span>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button md-prevent-menu-close
+                                       class="md-accent" aria-label="One Waybill"
+                                       ng-click="vm.bulkDefaults.oneWaybill=!vm.bulkDefaults.oneWaybill">
+                                <md-icon class="material-icons">
+                                    [[vm.bulkDefaults.oneWaybill ? 'radio_button_checked': 'radio_button_unchecked']]
+                                </md-icon>
+                                Tek İrsaliye Kullan
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-show="vm.bulkDefaults.oneWaybill">
+                            <md-input-container md-no-float class="margin-BT5">
+                                <input name="default-waybill" type="number" min="0"
+                                       placeholder="İrsaliye No" ng-model="vm.bulkDefaults.waybill">
+                            </md-input-container>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header not-scrollable">
+        <table md-table>
+            <thead md-head>
+            <tr md-row>
+                <th md-column></th>
+                <th md-column md-order-by="waybill" ng-show="!vm.bulkDefaults.oneWaybill">
+                    İrsaliye
+                </th>
+                <th md-column md-order-by="barcode">
+                    Stok Malzemesi
+                </th>
+                <th md-column md-order-by="main_unit_type">
+                    Birim / Esas Birim
+                </th>
+                <th md-column md-order-by="stock_code">
+                    [[::vm.enumTypes.actionTypes.label]]
+                </th>
+                <th md-column md-order-by="stock_code">
+                    Miktar
+                </th>
+                <th md-column md-order-by="stock_code">
+                    Birim Fiyat
+                </th>
+                <th md-column md-order-by="stock_code">
+                    Para Birimi
+                </th>
+            </tr>
+            </thead>
+            <tbody md-body ng-keydown="vm.keyDownListener($event)">
+            <tr md-row
+                class="bulk-data-row table-row"
+                ng-repeat="(index, bulkItem) in vm.bulkDataList track by $index"
+                ng-class="{'table-row__has-errors': bulkItem.errorMsg}"
+                ng-attr-data-index="[[::index]]"
+            >
+                <td md-cell class="bulk-data-cell bulk-data-cell__btn">
+                    <md-button class="reset-margin md-icon-button md-accent bulk-data-cell__btn-delete hide"
+                               ng-click="vm.deleteRow(index)">
+                        <md-icon class="material-icons">remove_circle_outline</md-icon>
+                    </md-button>
+                </td>
+                <td md-cell ng-show="!vm.bulkDefaults.oneWaybill">
+                    <md-input-container md-no-float class="margin-BT10">
+                        <input name="waybill-index[[::index]]" type="number" min="0"
+                               placeholder="İrsaliye No" ng-model="bulkItem.waybill">
+                    </md-input-container>
+                </td>
+                <td md-cell>
+                    <div layout="row"
+                         class="md-whiteframe-z1 full-width">
+                        <md-autocomplete
+                                flex
+                                ng-disabled="vm.acmpSettings.disable"
+                                md-selected-item="bulkItem._key_stock"
+                                md-selected-item-change="vm.onStockChange(item, bulkItem)"
+                                md-search-text="bulkItem.searchText"
+                                md-items="item in vm.acmpSettings.fetchRecords(vm.acmpSettings, bulkItem.searchText)"
+                                md-item-text="item.name"
+                                md-input-name="stock_autocomplete-index[[::index]]"
+                                md-dropdown-position="bottom"
+                                placeholder="Stok seçin..."
+                                md-menu-class="autocomplete-custom-template"
+                        >
+                            <md-item-template>
+                                <span class="item-title">
+                                    <md-icon class="material-icons md-accent">
+                                        <i class="fa fa-cube" aria-hidden="true"></i>
+                                    </md-icon>
+                                    <span class="themeDarkColor"
+                                          md-highlight-text="bulkItem.searchText"
+                                          md-highlight-flags="i"
+                                    >
+                                        [[item.name]]
+                                    </span>
+                                </span>
+                                <div class="item-metadata">
+                                    <div layout="column">
+                                        <span>
+                                            <strong>Barkod: </strong>
+                                            <span md-highlight-text="bulkItem.searchText">[[item.barcode]]</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </md-item-template>
+                            <md-not-found>
+                                <div class="outlineNone">
+                                    <i class="fa fa-info themeWarnColor" aria-hidden="true"></i>
+                                    <span>
+                                        [[bulkItem.searchText.length > 3
+                                        ? 'Böyle bir stok bulunamadı'
+                                        : 'En az 4 karakter yazmalısınız']]
+                                    </span>
+                                </div>
+                            </md-not-found>
+                        </md-autocomplete>
+                    </div>
+                </td>
+                <td md-cell class="bulk-data-cell bulk-data-cell__unit_type"></td>
+                <td md-cell>
+                    <md-select ng-model="bulkItem.action_type" placeholder="İşlem Tipi Seçin">
+                        <md-option ng-repeat="action_type in ::vm.enumTypes.actionTypes.items track by $index"
+                                   ng-value="::action_type.id"
+                                   ng-bind="::action_type.display">
+                        </md-option>
+                    </md-select>
+                </td>
+                <td md-cell>
+                    <md-input-container md-no-float class="margin-BT10">
+                        <input name="quantity-index[[::index]]" type="number" min="0.000"
+                               placeholder="Birim Fiyat" ng-model="bulkItem.quantity">
+                    </md-input-container>
+                </td>
+                <td md-cell>
+                    <md-input-container md-no-float class="margin-BT10">
+                        <input name="unit_price-index[[::index]]" type="number" min="0.000"
+                               placeholder="Birim Fiyat" ng-model="bulkItem.unit_price">
+                    </md-input-container>
+                </td>
+                <td md-cell>
+                    <md-select ng-disabled="true"
+                               ng-model="bulkItem._key_currency" placeholder="Para Birimi Seçin">
+                        <md-option ng-repeat="currency in ::$root.currencies track by $index"
+                                   ng-value="::currency._id.$oid"
+                                   ng-bind="::currency.name">
+                        </md-option>
+                    </md-select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+</md-card>
+<div layout="row" layout-align="space-between center">
+    <sub class="themeGreyColor">Kayıt Sayısı: [[vm.bulkDataList.length]]</sub>
+    <md-button class="themeGreyColor" ng-click="vm.runBulkJob()">
+        <md-icon class="material-icons">save</md-icon>
+        İşlemleri Yap
+    </md-button>
+</div>

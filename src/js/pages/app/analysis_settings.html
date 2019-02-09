@@ -1,0 +1,45 @@
+<div class="relative">
+    <div class="full-width breadcrumb">
+        <span class="breadcrumb__title">Analiz Tanımlamaları</span>
+    </div>
+</div>
+
+<div class="relative" ng-cloak>
+    <form class="full-width" name="settingsForm">
+    <div layout="column" layout-align="top center" class="md-padding" ng-if="vm.loadedFromServer">
+        <div flex layout="row" layout-align="start center" class="full-width">
+            <md-input-container class="full-width">
+                <md-icon class="material-icons">reorder</md-icon>
+                <label for="max_kat_sayisi" ng-bind="vm.singleRecordSettings.max_kat_sayisi.display"></label>
+                <input type="number" required min="1" max="100" id="max_kat_sayisi" name="maxKatsayisi"
+                       ng-model="vm.singleRecordSettings.max_kat_sayisi.item.field_value"/>
+                <div ng-messages="settingsForm.maxKatsayisi.$error"
+                     role="alert"
+                >
+                    <div ng-message="min">Kat sayısı en az 1 olmalıdır!</div>
+                    <div ng-message="max">Kat sayısı en fazla 100 olabilir!</div>
+                    <div ng-message="required">Lütfen en yüksek kat sayısını tanımlayın!</div>
+                </div>
+            </md-input-container>
+        </div>
+        <div class="full-width" layout="row" layout-wrap>
+            <div flex="100" flex-sm="50" flex-gt-sm="33" class="full-width" layout="column" layout-align="start start">
+                <analysis-settings-card settings-key="'kapasite'" class="full-width padding8">
+                </analysis-settings-card>
+            </div>
+            <div flex="100" flex-sm="50" flex-gt-sm="33" class="full-width" layout="column" layout-align="start start">
+                <analysis-settings-card settings-key="'motor_gucu'" class="full-width padding8">
+                </analysis-settings-card>
+            </div>
+            <div flex="100" flex-sm="50" flex-gt-sm="33" class="full-width" layout="column" layout-align="start start">
+                <analysis-settings-card settings-key="'motor_tipi'" class="full-width padding8">
+                </analysis-settings-card>
+                <analysis-settings-card settings-key="'motor_hizi'" class="full-width padding8">
+                </analysis-settings-card>
+                <analysis-settings-card settings-key="'materyal'" class="full-width padding8">
+                </analysis-settings-card>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

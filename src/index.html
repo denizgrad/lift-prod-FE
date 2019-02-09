@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+    <html lang="tr" ng-app="liftnecApp">
+    <head>
+        <base href="/"/>
+        <meta charset="UTF-8">
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="description" content="Liftnec Web">
+        <title>Liftnec Web</title>
+        <!-- Pre fetching -->
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+        <!-- Preloader Block  -->
+        <link rel="preload" crossorigin="anonymous" as="style"
+              href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,italic|Material+Icons" />
+        <link rel="preload" crossorigin="anonymous" as="style"
+              href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <!-- Stylesheet Block -->
+        <link rel="stylesheet" crossorigin="anonymous"
+              href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,italic|Material+Icons"/>
+        <link rel="stylesheet" crossorigin="anonymous"
+              href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <!--[htmlclean-protect]-->
+        <!-- inject:css -->
+        <!-- endinject -->
+        <!--[/htmlclean-protect]-->
+    </head>
+    <body class="loading" ng-switch="$state.current.name">
+    <div id="loadingBar" class="full-width full-height fixed center">
+        <i class="themeDarkBlueColor fa fa-spinner fa-pulse fa-fw fa-4x relative" style="top:40%"></i>
+    </div>
+    <div id="app" layout="column" class="full-width full-height" ui-view></div>
+    <!-- Script block -->
+    <script type="text/javascript">
+        (function(){
+            var JS_PATH = '/js';
+            window.now = new Date();
+            window.paths = {
+                version: '1.2.0',
+                JS_PATH: JS_PATH,
+                DIRECTIVES_PATH: JS_PATH + '/directives',
+                COMPONENTS_PATH: JS_PATH + '/components',
+                DIALOGS_PATH: JS_PATH + '/dialogs',
+                PAGES_PATH: JS_PATH + '/pages',
+            };
+            window.manageLoadingView = function (show) {
+                try {window.toggleLoader(show)}
+                catch (e) {}};
+            window.addEventListener("load", function(event) {
+                toggleLoader(false);
+                window.toggleLoader = toggleLoader;
+                function toggleLoader(show){
+                    if (show) {
+                        document.querySelector('body').classList.add("loading");
+                    } else {
+                        document.querySelector('body').classList.remove("loading");
+                    }
+                }
+            });
+        })();
+    </script>
+    <!--[htmlclean-protect]-->
+    <!-- inject:js -->
+    <!-- endinject -->
+    <!--[/htmlclean-protect]-->
+</body>
+</html>

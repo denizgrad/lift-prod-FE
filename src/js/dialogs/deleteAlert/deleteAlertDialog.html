@@ -1,0 +1,46 @@
+<md-dialog aria-label="Kayıt Silme İşlemi"
+           flex flex-gt-sm="60" flex-gt-md="50">
+    <md-progress-linear ng-show="vm.promise"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <md-dialog-content layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <div ng-switch="vm.errors.hasError">
+                <div ng-switch-when="true" class="full-width">
+                    <div class="alert alert-danger">
+                        <h3 ng-bind="vm.errors.errorMsg">Beklenmeyen Bir Hata Oluştu</h3>
+                        <p ng-bind-html="vm.errors.errorDetail"></p>
+                    </div>
+                </div>
+                <div ng-switch-default class="full-width" layout="column">
+                    <div class="alert alert-warning">
+                        <h3>Bir kaydı silmek istiyorsunuz</h3>
+                        <p>
+                            Bu işlemin geri dönüşü yoktur!
+                            <br/>
+                            Eğer bu işlemden eminseniz aşağıdaki kutucuğu seçin ve <strong>SİL</strong> tuşuna basın
+                        </p>
+                    </div>
+                    <md-checkbox ng-model="vm.deletionAccepted" class="md-warn">
+                        Silme işlemini onaylıyorum
+                    </md-checkbox>
+                    <md-checkbox ng-if="vm.forceDeleteAvaible"
+                                 ng-model="vm.forceDelete" class="md-warn themeErrorColor">
+                        İlişkili kayıtlarla birlikte sil
+                    </md-checkbox>
+                </div>
+            </div>
+        </md-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.cancelDialog()">
+                Vazgeç
+            </md-button>
+            <md-button class="md-warn" ng-click="vm.acceptDeletion()"
+                       ng-disabled="!vm.deletionAccepted || vm.errors.hasError">
+                Sil
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

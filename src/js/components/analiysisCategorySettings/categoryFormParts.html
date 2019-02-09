@@ -1,0 +1,26 @@
+<div class="full-width" layout="column" layout-align="start start" ng-if="vm.settingsLoaded">
+    <div class="BG-White full-width themeGreyColor padding-BT8 padding-left16 border-bottom border-d3"
+         layout="row" layout-align="start center">
+        <md-icon class="material-icons reset-margin">settings</md-icon>
+        <span class="padding-left8 font16 const medium">[[::vm.enumCategory.display]] Özellikleri</span>
+    </div>
+    <div layout="row" layout-align="start center" class="full-width" layout-wrap>
+        <md-input-container class="full-width form-select-container" flex="50" flex-xs="100"
+                            ng-repeat="fieldKey in vm.enumCategory.settingsKeys track by $index">
+            <label for="[[fieldKey]]" ng-bind="vm.records[fieldKey].display"></label>
+            <md-icon class="material-icons"
+                     ng-if="vm.records[fieldKey].mIcon"
+                     ng-bind="vm.records[fieldKey].mIcon">
+            </md-icon>
+            <md-select id="[[fieldKey]]" name="[[fieldKey]]"
+                       aria-label="[[vm.records[fieldKey].display]]"
+                       ng-model="vm.dictScope[vm.records[fieldKey].id]">
+                <md-option ng-repeat="_record in vm.records[fieldKey].items track by $index"
+                           ng-value="_record.field_value">
+                    [[_record.field_value]]
+                    <span ng-if="vm.records[fieldKey].suffix">([[vm.records[fieldKey].suffix]])</span>
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+</div>

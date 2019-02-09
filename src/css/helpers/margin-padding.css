@@ -1,0 +1,375 @@
+.no-margin-padding{
+    margin:0 !important;
+    padding:0 !important;
+}
+.reset-margin{
+    margin:0 !important;
+}
+.reset-margin-LR{
+    margin-left:0 !important;
+    margin-right:0 !important;
+}
+.reset-padding{
+    padding:0 !important;
+}
+/**
+ * Margin Ayarları
+**/
+.margin-auto{
+    margin:auto;
+}
+.margin2{
+    margin:2px;
+}
+.margin5{
+    margin:5px;
+}
+.margin8{
+    margin:8px;
+}
+.margin16{
+    margin:16px;
+}
+/* Margin Bot Top */
+.margin-BT-auto{
+    margin-bottom: auto;
+    margin-top: auto;
+}
+.margin-BT5{
+    margin-bottom:5px;
+    margin-top:5px;
+}
+.margin-BT8{
+    margin-bottom:8px;
+    margin-top:8px;
+}
+.margin-BT10{
+    margin-bottom:10px;
+    margin-top:10px;
+}
+.margin-BT16{
+    margin-bottom:16px;
+    margin-top:16px;
+}
+.margin-BT24{
+    margin-bottom:24px;
+    margin-top:24px;
+}
+.margin-BT32{
+    margin-bottom:32px;
+    margin-top:32px;
+}
+/*------------------------------------------------------*/
+/* Margin Left Right */
+.margin-LR-auto{
+    margin-right: auto;
+    margin-left: auto;
+}
+.margin-LR5{
+    margin-right:5px;
+    margin-left:5px
+}
+.margin-LR8{
+    margin-right:8px;
+    margin-left:8px
+}
+.margin-LR20{
+    margin-right:20px;
+    margin-left:20px
+}
+.margin-LR2percent{
+    margin : 0 2%!important;
+}
+/*------------------------------------------------------*/
+/* Margin Bottom */
+.margin-bottom0{
+    margin-bottom:0;
+}
+.margin-bottom5{
+    margin-bottom:5px;
+}
+.margin-bottom8{
+    margin-bottom:8px;
+}
+.margin-bottom10{
+    margin-bottom:10px;
+}
+.margin-bottom16{
+    margin-bottom:16px;
+}
+.margin-bottom20{
+    margin-bottom:20px !important;
+}
+.margin-bottom30{
+    margin-bottom:30px;
+}
+/*------------------------------------------------------*/
+/* Margin Top */
+.margin-top0{
+    margin-top:0!important;
+}
+.margin-top5{
+    margin-top:5px;
+}
+.margin-top8{
+    margin-top:8px;
+}
+.margin-top10{
+    margin-top:10px;
+}
+.margin-top16{
+    margin-top:16px;
+}
+.margin-top20{
+    margin-top:20px;
+}
+.margin-top30{
+    margin-top:30px;
+}
+/* Margin Top Inverse */
+.margin-InverseTop10{
+    margin-top:-10px;
+}
+.margin-InverseTop20{
+    margin-top:-20px;
+}
+.margin-InverseTop30{
+    margin-top:-30px;
+}
+/*------------------------------------------------------*/
+/* Margin Right */
+.margin-right5{
+    margin-right:5px;
+}
+.margin-right8{
+    margin-right:8px;
+}
+.margin-right10{
+    margin-right:10px;
+}
+.margin-right16{
+    margin-right:16px;
+}
+.margin-right20{
+    margin-right:20px;
+}
+.margin-right30{
+    margin-right:30px;
+}
+/*------------------------------------------------------*/
+/* Margin Left */
+.margin-left0{
+    margin-left:0;
+}
+.margin-left5{
+    margin-left:5px;
+}
+.margin-left8{
+    margin-left:8px;
+}
+.margin-left10{
+    margin-left:10px;
+}
+.margin-left16{
+    margin-left:16px;
+}
+.margin-left20{
+    margin-left:20px;
+}
+.margin-left30{
+    margin-left:30px;
+}
+/*------------------------------------------------------*/
+/**
+ * Padding Ayarları
+**/
+.padding5{
+    padding:5px;
+}
+.padding8{
+    padding:8px;
+}
+.padding16{
+    padding:16px;
+}
+.padding20{
+    padding:20px;
+}
+.padding24{
+    padding:24px;
+}
+.padding-LR5{
+    padding-left:5px !important;
+    padding-right:5px !important;
+}
+.padding-LR8{
+    padding-left:8px !important;
+    padding-right:8px !important;
+}
+.padding-LR12{
+    padding-left:12px;
+    padding-right:12px;
+}
+.padding-LR16{
+    padding-left:16px;
+    padding-right:16px;
+}
+.padding-LR20{
+    padding-left:20px;
+    padding-right:20px;
+}
+.padding-LR24{
+    padding-left:24px;
+    padding-right:24px;
+}
+.padding-LR32{
+    padding-left:32px;
+    padding-right:32px;
+}
+.padding-LR2percent{
+    padding : 0 2%;
+}
+.padding-BT5{
+    padding-bottom:5px;
+    padding-top:5px;
+}
+.padding-BT8{
+    padding-bottom:8px;
+    padding-top:8px;
+}
+.padding-BT10{
+    padding-bottom:10px !important;
+    padding-top:10px !important;
+}
+.padding-BT12{
+    padding-bottom:12px;
+    padding-top:12px;
+}
+.padding-BT16{
+    padding-bottom:16px;
+    padding-top:16px;
+}
+.padding-BT18{
+    padding-bottom:18px !important;
+    padding-top:18px !important;
+}
+.padding-BT24{
+    padding-bottom:24px;
+    padding-top:24px;
+}
+.padding-BT28{
+    padding-bottom:28px;
+    padding-top:28px;
+}
+.padding-BT32{
+    padding-bottom:32px;
+    padding-top:32px;
+}
+.padding-BT40{
+    padding-bottom:40px;
+    padding-top:40px;
+}
+
+.padding-left0{
+    padding-left:0px;
+}
+.padding-left5{
+    padding-left:5px;
+}
+.padding-left8{
+    padding-left:8px;
+}
+.padding-left10{
+    padding-left:10px;
+}
+.padding-left16{
+    padding-left:16px;
+}
+.padding-left24{
+    padding-left:24px;
+}
+.padding-left36{
+    padding-left:36px;
+}
+.padding-right0{
+    padding-right:0;
+}
+.padding-right8{
+    padding-right:8px;
+}
+.padding-right16{
+    padding-right:16px;
+}
+.padding-right24{
+    padding-right:24px;
+}
+.padding-right30{
+    padding-right:30px;
+}
+.padding-right36{
+    padding-right:36px;
+}
+.padding-top0{
+    padding-top:0;
+}
+.padding-top5{
+    padding-top:5px;
+}
+.padding-top8{
+    padding-top:8px;
+}
+.padding-top10{
+    padding-top:10px;
+}
+.padding-top16{
+    padding-top:16px;
+}
+.padding-top20{
+    padding-top:20px;
+}
+.padding-top30{
+    padding-top:30px;
+}
+.padding-bottom0{
+    padding-bottom:0;
+}
+.padding-bottom8{
+    padding-bottom:8px;
+}
+.padding-bottom12{
+    padding-bottom:12px;
+}
+.padding-bottom16{
+    padding-bottom:16px;
+}
+.padding-bottom20{
+    padding-bottom:20px;
+}
+.padding-bottom24{
+    padding-bottom:24px;
+}
+.padding-bottom32{
+    padding-bottom:32px;
+}
+
+/*------------------------------------------------------*/
+/**
+ * Position (top, left, right, center) Ayarları
+**/
+
+@media (min-width:600px){
+    .reset-gt-xs-padding{
+        padding:0 !important;
+    }
+    .reset-gt-xs-margin{
+        margin:0 !important;
+    }
+}
+@media (max-width:599px){
+    .reset-xs-padding{
+        padding:0 !important;
+    }
+    .reset-xs-margin{
+        margin:0 !important;
+    }
+}

@@ -1,0 +1,67 @@
+<md-dialog class="field-filter-dialog" aria-label="Sorgu" flex flex-gt-sm="50" flex-gt-md="40">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools md-primary" layout="row" layout-align="space-between center">
+            <span>Sorgu</span>
+        </div>
+    </md-toolbar>
+    <md-dialog-content layour="column" ng-cloak>
+        <md-content layout="column" layout-align="start start"
+                    class="md-padding" ng-if="vm.initDone">
+            <md-select class="field-filter-dialog__fieldlist full-width"
+                       ng-model="vm.selectedFilter.field"
+                       ng-change="vm.changeOperatorList()"
+                       placeholder="Sorgu Alanı"
+            >
+                <md-option ng-repeat="field in vm.fieldFilterList track by $index"
+                           class="field-filter-dialog__fieldlist-option"
+                           ng-selected="vm.checkFieldSelected(field)" ng-value="field"
+                           ng-bind="::field.display">
+                </md-option>
+            </md-select>
+            <md-select class="field-filter-dialog__operators full-width"
+                       ng-model="vm.selectedFilter.operator"
+                       placeholder="Sorgu Alanı"
+            >
+                <md-option ng-repeat="operator in vm.operatorList track by $index"
+                           class="field-filter-dialog__operator-option"
+                           ng-selected="vm.checkOptionSelected(operator)" ng-value="operator"
+                           ng-bind="operator.display">
+                </md-option>
+            </md-select>
+            <md-input-container md-no-float class="full-width"
+                                ng-switch="vm.selectedFilter.field.type">
+                <input ng-switch-when="text"
+                       ng-model="vm.selectedFilter.value"
+                       ng-keypress="vm.keyEventListener($event)"
+                       name="filter-value" type="text"
+                       class="field-filter-dialog__value field-filter-dialog__value--text"
+                       placeholder="Anahtar Değer"/>
+                <input ng-switch-when="number"
+                       ng-model="vm.selectedFilter.value"
+                       ng-keypress="vm.keyEventListener($event)"
+                       name="filter-value" type="number"
+                       class="field-filter-dialog__value field-filter-dialog__value--number"
+                       placeholder="Anahtar Değer"/>
+            </md-input-container>
+        </md-content>
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div class="full-width" layout="row" layout-align="space-between center">
+            <md-button ng-if="vm.editSelected" class="md-warn"
+                       ng-click="vm.closePrompt(true, true)">
+                Sil
+            </md-button>
+            <div class="full-width" layout="row" layout-align="end center">
+                <md-button class="themeGreyColorLight"
+                           ng-click="vm.closePrompt(false, false)">
+                    İPTAL
+                </md-button>
+                <md-button class="md-primary"
+                           ng-click="vm.closePrompt(true, false)">
+                    UYGULA
+                </md-button>
+            </div>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

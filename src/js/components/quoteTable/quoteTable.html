@@ -1,0 +1,85 @@
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div layout="row" layout-align="start center" layout-wrap>
+        <field-filter parent-controller="vm"
+                      get-filter-fields="vm.getFilterFields"
+                      selected-filters="vm.selectedFilters"
+                      on-list-changed="vm.fetchQuoteList">
+        </field-filter>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Teklif Listesi</span>
+            <div layout="row" layout-align="end center">
+                <div ng-if="vm.tableOptions.query.selected.length > 0" layout="row">
+                    <delete-record-button endpoint="vm.endpoint"
+                                          callback-on-delete="vm.fetchQuoteList"
+                                          record-id="vm.tableOptions.query.selected[0]._id.$oid">
+                    </delete-record-button>
+                    <md-button class="md-icon-button md-warn"
+                               ng-click="vm.updateRecord($event)"
+                    >
+                        <md-icon class="material-icons">edit</md-icon>
+                        <md-tooltip md-direction="left">Güncelle</md-tooltip>
+                    </md-button>
+                </div>
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchQuoteList()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>        
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="true"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+                <tr md-row>
+                    <th md-column md-order-by="_key_account">
+                        Sahibi Firma
+                    </th>
+                    <th md-column md-order-by="_key_project">
+                        Proje
+                    </th>
+                    <th md-column md-order-by="expiry_date">
+                        Son Tarih
+                    </th>
+                    <th md-column md-order-by="amount_total">
+                        Toplam Tutar
+                    </th>
+                </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+                <tr md-row
+                    ng-repeat="quote in vm.tableOptions.query.data track by $index"
+                    md-select="quote" md-auto-select="true">
+                    <td md-cell ng-bind="quote._key_account.name"></td>
+                    <td md-cell ng-bind="quote._key_project.name"></td>
+                    <td md-cell ng-bind="$root.formatDate(quote.expiry_date)"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(quote.amount_total, quote._key_currency_amount_total.code)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

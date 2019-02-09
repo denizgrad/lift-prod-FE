@@ -1,0 +1,99 @@
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div layout="row" layout-align="start center" layout-wrap>
+        <div class="query-filter__filter query-filter__filter--removable"
+             layout="row" layout-align="start center"
+             ng-repeat="filteredFiled in vm.selectedFilters track by $index">
+            <div ng-click="vm.addNewFilter($event, filteredFiled)">
+                <span class="query-filter__filter-name" ng-bind="filteredFiled.field.display"></span>
+                <span class="query-filter__filter-operator">[[filteredFiled.operator.display]]:</span>
+                <span md-truncate class="query-filter__filter-value padding-left5" ng-bind="filteredFiled.value">
+                </span>
+                <md-icon class="material-icons query-filter__filter-edit-icon">edit</md-icon>
+            </div>
+            <md-icon ng-click="vm.removeFilterByIndex($index)"
+                     class="material-icons  query-filter__filter-remove-icon"
+                     aria-label="Sorguyu Sil" alt="Sorguyu Sil">
+                cancel
+            </md-icon>
+        </div>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Stok Hareket Listesi</span>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchStockActionList()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="vm.tableOptions.selectable"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+            <tr md-row>
+                <th md-column md-numeric md-order-by="action_no">
+                    No
+                </th>
+                <th md-column md-numeric md-order-by="waybill">
+                    İrsaliye No
+                </th>
+                <th md-column>Malzeme</th>
+                <th md-column>Stok Kodu</th>
+                <th md-column>
+                    Birim / Esas Birim
+                </th>
+                <th md-column md-order-by="action_type">İşlem Tipi</th>
+                <th md-column md-order-by="quantity">İşlem Miktarı</th>
+                <th md-column md-order-by="unit_price">Birim Fiyat</th>
+                <th md-column md-order-by="total_price">Toplam Fiyat</th>
+                <th md-column md-order-by="_key_currency">Para Birimi</th>
+                <th md-column md-order-by="_created_date">Oluşturma Tarihi</th>
+                <th md-column md-order-by="_key_created_user">Oluşturan</th>
+            </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+            <tr md-row
+                ng-repeat="stockAction in vm.tableOptions.query.data track by $index"
+                md-select="stockAction" md-auto-select="true"
+            >
+                <td md-cell ng-bind="stockAction.action_no"></td>
+                <td md-cell ng-bind="stockAction.waybill"></td>
+                <td md-cell ng-bind="stockAction._key_stock.name"></td>
+                <td md-cell ng-bind="stockAction._key_stock.stock_code"></td>
+                <td md-cell>[[stockAction._key_stock.unit_type]] / [[stockAction._key_stock.main_unit_type]]</td>
+                <td md-cell ng-bind="stockAction.action_type"></td>
+                <td md-cell ng-bind="stockAction.quantity"></td>
+                <td md-cell ng-bind="$root.fixDigits(stockAction.unit_price)"></td>
+                <td md-cell ng-bind="$root.fixDigits(stockAction.total_price)"></td>
+                <td md-cell ng-bind="stockAction._key_currency.name"></td>
+                <td md-cell ng-bind="$root.formatDate(stockAction._created_date)"></td>
+                <td md-cell ng-bind="stockAction._key_created_user.full_name"></td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

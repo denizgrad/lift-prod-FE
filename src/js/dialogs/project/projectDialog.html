@@ -1,0 +1,201 @@
+<md-dialog aria-label="Proje Güncelleme" flex="90"
+           ng-class="$root.$mdMedia('gt-sm') ? 'BgC-Transparent' : ''" xmlns="">
+    <md-toolbar md-theme="default" ng-class="$root.$mdMedia('gt-sm') ? '' :'md-whiteframe-1dp'">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="md-heading">Proje</span>
+            <md-button class="md-icon-button" ng-click="vm.cancelDialog()">
+                <md-icon aria-label="Kapat" class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear ng-show="vm.promises.createOrUpdate"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <div ng-show="vm.error.hasError"
+         class="padding8 font16 const regular BG-md-content border-dotted-bottom border-d3">
+        <div class="themeWarnColor">
+            <span ng-bind="vm.error.detail"></span>
+        </div>
+    </div>
+    <md-dialog-content ng-if="vm.initDone" layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <md-progress-circular ng-show="vm.promises.fetching" md-diameter="100" class="margin-auto md-primary">
+            </md-progress-circular>
+            <form name="projectForm" ng-show="!vm.promises.fetching">
+                <div layout="row" layout-xs="column" ng-init="vm.formScope=projectForm">
+                    <md-input-container class="full-width">
+                        <label for="status">Proje Adı</label>
+                        <md-icon><i class="fa fa-folder-o" aria-hidden="true"></i></md-icon>
+                        <input id="name" type="text" name="name" required ng-model="vm.project.name"/>
+                        <div ng-messages="projectForm.name.$error" ng-show="projectForm.name.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="currency_unit">Durumu</label>
+                        <md-icon><i class="fa fa-check" aria-hidden="true"></i></md-icon>
+                        <md-select id="status" name="currency_unit" ng-model="vm.project.status" required>
+                            <md-option ng-repeat="projectStates in $root.projectStates track by $index"
+                                       ng-value="projectStates"
+                                       ng-bind="projectStates">
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="projectForm.status.$error" ng-show="projectForm.status.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label>Teklif Tarihi</label>
+                        <md-datepicker name="bid_date"  ng-model="vm.project.bid_date" md-placeholder="Teklif Tarihi">
+                            <div ng-messages="projectForm.name.$error" ng-show="projectForm.name.$dirty">
+                                <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                            </div>
+                        </md-datepicker>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label>Başlama Tarihi</label>
+                        <md-datepicker  name="start_date" ng-model="vm.project.start_date" md-placeholder="Başlama Tarihi" required="true">
+                        </md-datepicker>
+                        <div ng-messages="projectForm.start_date.$error" ng-show="projectForm.start_date.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row" class="autocompletedemoCustomTemplate md-whiteframe-z1">
+                    <md-autocomplete
+                            required
+                            class="full-width autocomplete-custom-template"
+                            md-no-cache="vm.acmpAccountSettingsOwner.no_cache"
+                            md-selected-item="vm.acmpAccountSettingsOwner.selected_item"
+                            md-selected-item-change="vm.acmpAccountSettingsOwner.onChange(item)"
+                            md-search-text="vm.acmpAccountSettingsOwner.searchText"
+                            md-items="item in vm.acmpAccountSettingsOwner.fetchRecords(vm.acmpAccountSettingsOwner, vm.acmpAccountSettingsOwner.searchText)"
+                            md-item-text="item.name"
+                            md-input-name="_key_account_owner"
+                            md-dropdown-position="bottom"
+                            md-floating-label="Sahibi Firma"
+                            placeholder="Sahibi Firma"
+                            md-menu-class="autocomplete-custom-template">
+                        <md-item-template>
+                        <span class="item-title">
+                            <md-icon class="material-icons md-accent">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                            </md-icon>
+                            <span class="themeDarkColor"
+                                  md-highlight-text="vm.acmpAccountSettingsOwner.searchText"
+                                  md-highlight-flags="i"
+                            >
+                                [[item.name]]
+                            </span>
+                        </span>
+                        </md-item-template>
+                        <md-not-found>
+                            <div class="outlineNone" ng-click="vm.createNewAccountOwner($event)">
+                                <i aria-hidden="true"
+                                   class="fa fa-plus-circle themeGreenColor"></i>
+                                <span> Firma bulunamadı. <b class="themeGreenColor">Yeni oluştur</b></span>
+                            </div>
+                        </md-not-found>
+                    </md-autocomplete>
+                    <md-autocomplete
+                            required
+                            class="full-width autocomplete-custom-template"
+                            md-no-cache="vm.acmpAccountSettingsContractor.no_cache"
+                            md-selected-item="vm.acmpAccountSettingsContractor.selected_item"
+                            md-selected-item-change="vm.acmpAccountSettingsContractor.onChange(item)"
+                            md-search-text="vm.acmpAccountSettingsContractor.searchText"
+                            md-items="item in vm.acmpAccountSettingsContractor.fetchRecords(vm.acmpAccountSettingsContractor, vm.acmpAccountSettingsContractor.searchText)"
+                            md-item-text="item.name"
+                            md-input-name="_key_account_contractor"
+                            md-dropdown-position="bottom"
+                            md-floating-label="Kontratçı Firma"
+                            placeholder="Kontratçı Firma"
+                            md-menu-class="autocomplete-custom-template">
+                        <md-item-template>
+                        <span class="item-title">
+                            <md-icon class="material-icons md-accent">
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                            </md-icon>
+                            <span class="themeDarkColor"
+                                  md-highlight-text="vm.acmpAccountSettingsContractor.searchText"
+                                  md-highlight-flags="i"
+                            >
+                                [[item.name]]
+                            </span>
+                        </span>
+                        </md-item-template>
+                        <md-not-found>
+                            <div class="outlineNone" ng-click="vm.createNewAccountContractor($event)">
+                                <i aria-hidden="true"
+                                   class="fa fa-plus-circle themeGreenColor"></i>
+                                <span> Firma bulunamadı. <b class="themeGreenColor">Yeni oluştur</b></span>
+                            </div>
+                        </md-not-found>
+                    </md-autocomplete>
+                </div>
+                <br>
+                <div layout="row" layout-xs="column">
+                    <md-input-container class="full-width">
+                        <label for="amount">Tutar</label>
+                        <md-icon><i class="fa fa-money" aria-hidden="true"></i></md-icon>
+                        <input required
+                               id="amount"
+                               type="number"
+                               min="0.000"
+                               name="buying_price"
+                               ng-model="vm.project.amount"/>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="currency_unit">Tutar Para Birimi</label>
+                        <md-icon><i class="fa fa-money" aria-hidden="true"></i></md-icon>
+                        <md-select id="currency_unit" name="currency_unit" ng-model="vm.project._key_currency_amount" required>
+                            <md-option ng-repeat="_currency in $root.currencies track by $index"
+                                       ng-value="_currency._id.$oid"
+                                       ng-bind="_currency.name">
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="stockForm.currency_unit.$error" ng-show="stockForm.currency_unit.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="lift_total">Asansör Tutar</label>
+                        <md-icon><i class="fa fa-money" aria-hidden="true"></i></md-icon>
+                        <input required
+                               id="lift_total"
+                               type="number"
+                               min="0.000"
+                               name="buying_price"
+                               ng-model="vm.project.lift_total"/>
+                    </md-input-container>
+                    <md-input-container class="full-width">
+                        <label for="currency_unit">Asansör Tutar Para Birimi</label>
+                        <md-icon><i class="fa fa-money" aria-hidden="true"></i></md-icon>
+                        <md-select id="_key_currency_lift_total" name="currency_unit" ng-model="vm.project._key_currency_lift_total" required>
+                            <md-option ng-repeat="_currency in $root.currencies track by $index"
+                                       ng-value="_currency._id.$oid"
+                                       ng-bind="_currency.name">
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="projectForm.currency_unit.$error" ng-show="projectForm.currency_unit.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </form>
+        </md-content>
+        <md-divider></md-divider>
+        <quote-table></quote-table>
+        <md-dialog-actions layout="row" layout-align="end center">
+            <md-button class="md-primary" ng-click="vm.deleteBtnOptions.onClick()"
+                       ng-disabled="!vm.promises.delete">
+                [[::vm.deleteBtnOptions.label]]
+            </md-button>
+            <md-button class="md-primary" ng-click="vm.saveBtnOptions.onClick()"
+                       ng-disabled="!projectForm.$valid || vm.promises.fetching || vm.promises.createOrUpdate">
+                [[::vm.saveBtnOptions.label]]
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

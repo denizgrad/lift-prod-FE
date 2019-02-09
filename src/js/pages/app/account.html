@@ -1,0 +1,27 @@
+<div class="relative">
+    <div class="full-width breadcrumb">
+        <span class="breadcrumb__title">Firmalar</span>
+    </div>
+    <md-button layout="row"
+               ng-class="{'hide': $state.current.name!=='app.account.list'}"
+               layout-align="center center"
+               ng-click="vm.createNewAccount($event)"
+               class="action-fab-btn action-fab-btn--has-breadcrump
+                      md-fab md-fab-top-right
+                      md-icon-button md-accent
+                      animated zoomIn"
+    >
+        <md-tooltip md-direction="left">Yeni Firma Tanımla</md-tooltip>
+        <md-icon class="whiteColor">add</md-icon>
+    </md-button>
+</div>
+
+<div class="erp-tab-wrapper md-whiteframe-z1"
+     layout="row" layout-xs="column" layout-align="start center" layout-align-xs="start center">
+    <a class="full-width" flex ui-sref-active="active" ui-sref="app.account.list">Firma Listesi</a>
+</div>
+<div class="relative" ng-cloak>
+    <div layout="column" layout-align="top center" class="md-padding">
+        <div class="full-width" ui-view>Yükleniyor...</div>
+    </div>
+</div>

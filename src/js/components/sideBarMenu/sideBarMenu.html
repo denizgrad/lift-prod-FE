@@ -1,0 +1,103 @@
+<div id="SidenavContainer"
+     layout="row"
+     class="relative full-height"
+     ng-init="lockDesktop=true"
+     ng-class="{'overflow-hidden': lockDesktop}"
+>
+    <div hide show-gt-sm
+         class="desktopControl"
+         ng-class="{'closed': !lockDesktop}"
+    >
+        <md-tooltip md-direction="right">[[lockDesktop ? 'Gizle' : 'Göster']]</md-tooltip>
+        <i class="fa fa-chevron-left fa-2x" aria-hidden="true" ng-click="lockDesktop=!lockDesktop"></i>
+    </div>
+    <md-sidenav id="left-menu" class="md-sidenav-left md-whiteframe-z2" flex="100"
+                md-component-id="leftStatic"
+                md-is-locked-open="$root.lockLeft || (lockDesktop && $mdMedia('gt-sm'))"
+    >
+        <ul class="no-margin-padding" id="menu-list">
+            <!--
+            <li ui-sref-active="active">
+                <a ui-sref="app.home" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+            </li>
+            -->
+            <li ui-sref-active="{'active': 'app.stock'}">
+                <a ui-sref="app.stock.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-cubes" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Stok</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="{'active': 'app.account'}">
+                <a ui-sref="app.account.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Firmalar</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="{'active': 'app.contact'}">
+                <a ui-sref="app.contact.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-group" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>İrtibatlar</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="{'active': 'app.brand'}">
+                <a ui-sref="app.brand.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-copyright" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Markalar</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="{'active': 'app.analysis'}">
+                <a ui-sref="app.analysis.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Asansör Analizleri</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.analysis_settings" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Analiz Tanımları</span>
+                    </div>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.project.list" layout="column" layout-align="center center">
+                    <div>
+                        <i class="fa fa-arrows-v" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <span>Projeler</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </md-sidenav>
+</div>

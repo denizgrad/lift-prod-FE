@@ -1,0 +1,86 @@
+<md-card class="editable-list editable-list-card" layout="column">
+    <div class="editable-list-header" layout="row" layout-align="start center">
+        <md-icon ng-if="::vm.enumSettings.mIcon"
+                 class="editable-list-header__icon material-icons">
+            [[::vm.enumSettings.mIcon]]
+        </md-icon>
+        <strong class="editable-list-header__title">
+            [[::vm.enumSettings.display]] <span ng-if="::vm.enumSettings.suffix">([[::vm.enumSettings.suffix]])</span>
+        </strong>
+    </div>
+    <md-divider></md-divider>
+    <div class="editable-list-items" ng-switch="vm.isFirstLoadDone">
+        <div ng-switch-when="false" class="full-width" layout="row" layout-align="center center">
+            <md-progress-circular md-diameter="70" class="margin-auto md-primary">
+            </md-progress-circular>
+        </div>
+        <div ng-switch-when="true"
+             class="editable-list-item themeDarkBlueColor"
+             ng-repeat="record in vm.enumSettings.items track by $index">
+            <div class="full-width" ng-switch="record.isEditActive">
+                <div ng-switch-when="true" layout="row" layout-align="space-between center">
+                    <div flex>
+                        <md-input-container md-no-float class="editable-list__input-container">
+                            <input id="[[vm.settingsKey]]-[[$index]]"
+                                   type="[[::vm.enumSettings.value_type||'text']]"
+                                   ng-keypress="vm.updateKeypressListener($event, record)"
+                                   placeholder="[[::vm.enumSettings.display]]"
+                                   ng-init="record.updateValue=record.field_value"
+                                   ng-model="record.updateValue"/>
+                        </md-input-container>
+                    </div>
+                    <div class="animated fadeIn" ng-switch="record.updating">
+                        <div ng-switch-when="true">
+                            <md-progress-circular md-diameter="30" class="md-warn">
+                            </md-progress-circular>
+                        </div>
+                        <div ng-switch-default layout="row" layout-align="end center">
+                            <md-button class="md-icon-button md-accent reset-margin"
+                                       ng-click="record.isEditActive=false;">
+                                <md-icon class="material-icons">close</md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-warn md-raised"
+                                       ng-disabled="record.updateValue===record.field_value"
+                                       ng-click="vm.updateRecord($event, record)">
+                                <md-icon class="material-icons">done</md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-switch-default layout="row" layout-align="space-between center">
+                    <div flex>
+                        <span>[[record.field_value]]</span>
+                        <span>[[vm.enumSettings.suffix]]</span>
+                    </div>
+                    <div class="editable-list-button-container" layout="row" layout-align="end center">
+                        <delete-record-button endpoint="vm.endpoint" record-id="record._id.$oid"
+                                              callback-args="[record]"
+                                              callback-on-delete="vm.deleteRecord">
+
+                        </delete-record-button>
+                        <md-button class="md-icon-button md-accent"
+                                   ng-click="vm.toggleUpdatePanel($event, record)">
+                            <md-icon class="material-icons">edit</md-icon>
+                        </md-button>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div class="full-width padding-left16 padding-right8">
+        <div layout="row" layout-align="start center">
+            <md-input-container md-no-float class="editable-list__input-container md-primary">
+                <md-icon class="material-icons">add_circle</md-icon>
+                <input type="[[::vm.enumSettings.value_type||'text']]"
+                       ng-attr-name="editableCardInput[[vm.settingsKey]]"
+                       placeholder="Yeni [[::vm.enumSettings.display]] Tanımla"
+                       ng-model="vm.newRecordValue" ng-keypress="vm.keyPressListener($event, vm.newRecordValue)"/>
+                <md-tooltip md-direction="bottom">Oluşturmak için Enter tuşuna bas</md-tooltip>
+            </md-input-container>
+        </div><!--
+        <md-button class="editable-list_new-button" ng-switch-default>
+            <md-icon class="material-icons editable-list_new-button-icon">add_circle</md-icon> Yeni Ekle
+        </md-button>-->
+    </div>
+</md-card>

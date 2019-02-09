@@ -1,0 +1,126 @@
+<stock-total-by-currency class="margin-bottom16" layout="row" layout-align="start center" layout-wrap>
+    ...
+</stock-total-by-currency>
+<md-card class="full-width reset-margin-LR padding8 margin-bottom0 BG-blue-linear-light">
+    <div>
+        <field-filter layout="row" layout-align="start center" layout-wrap
+                      parent-controller="vm"
+                      get-filter-fields="vm.getFilterFields"
+                      selected-filters="vm.selectedFilters"
+                      on-list-changed="vm.fetchStockList">
+        </field-filter>
+    </div>
+</md-card>
+<md-card class="full-width reset-margin-LR margin-top0">
+    <md-toolbar class="md-table-toolbar md-default md-menu-toolbar border-bottom border-3e">
+        <div class="md-toolbar-tools"
+             layout="row" layout-align="space-between center">
+            <span>Stok Listesi</span>
+            <div layout="row" layout-align="end center">
+                <div ng-if="vm.tableOptions.query.selected.length > 0">
+                    <delete-record-button endpoint="vm.endpoint"
+                                          callback-on-delete="vm.fetchStockList"
+                                          record-id="vm.tableOptions.query.selected[0]._id.$oid">
+                    </delete-record-button>
+                </div>
+                <md-button class="md-icon-button md-warn"
+                           ng-show="vm.tableOptions.query.selected.length > 0"
+                           ng-click="vm.updateRecord($event)"
+                >
+                    <md-icon class="material-icons">edit</md-icon>
+                    <md-tooltip md-direction="left">Güncelle</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-primary"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.fetchStockList()"
+                >
+                    <md-icon class="material-icons">refresh</md-icon>
+                    <md-tooltip md-direction="left">Listeyi Yenile</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button md-accent"
+                           ng-disabled="vm.tableOptions.query.promise"
+                           ng-click="vm.addNewFilter($event, null)"
+                >
+                    <md-icon class="material-icons">filter_list</md-icon>
+                    <md-tooltip md-direction="left">Filtre Ekle</md-tooltip>
+                </md-button>
+            </div>
+        </div>        
+    </md-toolbar>
+    <md-table-container class="table-fixed-header">
+        <table md-table multiple="[[vm.tableOptions.multiple]]" md-row-select="true"
+               ng-model="vm.tableOptions.query.selected">
+            <thead md-head md-order="vm.tableOptions.query.order" md-on-reorder="vm.onReOrder">
+                <tr md-row>
+                    <th md-column md-order-by="barcode">
+                        Barkod
+                    </th>
+                    <th md-column md-order-by="stock_code">
+                        Stok Kodu
+                    </th>
+                    <th md-column md-order-by="_key_brand">
+                        Markası
+                    </th>
+                    <th md-column md-order-by="name">
+                        Malzeme Adı
+                    </th>
+                    <th md-column md-order-by="_key_category">
+                        Cinsi
+                    </th>
+                    <th md-column md-order-by="_key_category_item">
+                        Tipi
+                    </th>
+                    <th md-column md-order-by="unit_type">
+                        Birim Tipi
+                    </th>
+                    <th md-column md-order-by="main_unit_type">
+                        Esas Birimi
+                    </th>
+                    <th md-column md-numeric md-order-by="quantity">
+                        Mevcut Miktar
+                    </th>
+                    <th md-column md-numeric md-order-by="unit_price">
+                        Birim Fiyat
+                    </th>
+                    <th md-column md-numeric md-order-by="total_price">
+                        Toplam Fiyat
+                    </th>
+                    <th md-column md-numeric md-order-by="buying_price">
+                        Alış Fiyatı
+                    </th>
+                    <th md-column md-numeric md-order-by="list_price">
+                        Satış Fiyatı
+                    </th>
+                </tr>
+            </thead>
+            <md-progress-linear md-mode="indeterminate" ng-show="vm.tableOptions.query.promise"></md-progress-linear>
+            <tbody md-body>
+                <tr md-row
+                    ng-repeat="stock in vm.tableOptions.query.data track by $index"
+                    md-select="stock" md-auto-select="true"
+                >
+                    <td md-cell ng-bind="stock.barcode"></td>
+                    <td md-cell ng-bind="stock.stock_code"></td>
+                    <td md-cell ng-bind="stock._key_brand.name"></td>
+                    <td md-cell ng-bind="stock.name"></td>
+                    <td md-cell ng-bind="stock._key_category.name"></td>
+                    <td md-cell ng-bind="stock._key_category_item.name"></td>
+                    <td md-cell ng-bind="stock.unit_type"></td>
+                    <td md-cell ng-bind="stock.main_unit_type"></td>
+                    <td md-cell ng-bind="stock.quantity"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(stock.unit_price, stock._key_currency.code, 2)"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(stock.total_price, stock._key_currency.code, 2)"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(stock.buying_price, stock._key_currency.code, 2)"></td>
+                    <td md-cell ng-bind="$root.formatCurrency(stock.list_price, stock._key_currency.code, 2)"></td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-label="[[::vm.tableOptions.label]]"
+                         md-limit="vm.tableOptions.query.limit" md-limit-options="::vm.tableOptions.limitOptions"
+                         md-page="vm.tableOptions.query.page" md-total="[[vm.tableOptions.query.total]]"
+                         md-page-select="::vm.tableOptions.pageSelect"
+                         md-boundary-links="::vm.tableOptions.boundaryLinks"
+                         md-on-paginate="vm.onPaginate">
+    </md-table-pagination>
+</md-card>

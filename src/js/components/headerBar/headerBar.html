@@ -1,0 +1,115 @@
+<md-toolbar id="navbar" class="md-primary" ng-cloak flex>
+    <div class="md-toolbar-tools reset-xs-padding" layout="row" layout-align="space-between center">
+        <div layout="row" layout-align="center center">
+            <div style="border-right:1px solid #fff" hide-gt-sm>
+                <md-button ng-click="vm.toggleSidenav('leftStatic')"
+                           aria-label="Toggle Sidenav"
+                           class="whiteColor md-icon-button">
+                    <md-icon class="material-icons">menu</md-icon>
+                </md-button>
+            </div>
+            <a href="/" layout="row" layout-align="center center" hide-xs hide-sm>
+                <img src="/img/softneclogo2.png" alt="Softnec Bilişim" class="headerLogo"/>
+            </a>
+        </div>
+        <div layout="row" layout-align="end center">
+            <md-menu-bar layout="row" layout-align="end center">
+                <md-menu md-offset="0 5" md-position-mode="target-right target">
+                    <md-button class="full-height md-menu-origin"
+                               aria-label="User Menu"
+                               ng-click="$mdMenu.open()"
+                               layout="row"
+                               layout-align="space-between center"
+                               ng-class="{'md-icon-button': $mdMedia('gt-sm')}"
+                    >
+                        <img class="md-whiteframe-z1 header__user-avatar"
+                             src="/img/useravatar.png" alt="User"/>
+                        <span class="capitalcase margin-left8" ng-bind="vm.current_user.full_name">
+                        </span>
+                    </md-button>
+                    <md-menu-content width="3">
+                        <md-menu-item hide-gt-sm>
+                            <md-button disabled class="capitalcase">
+                                [[vm.current_user.full_name]]
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider hide-gt-sm></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-click="vm.toggleFullScreen()">
+                                <md-icon class="material-icons" 
+                                         ng-bind="!vm.fullscreenEnabled ? 'fullscreen' : 'fullscreen_exit'"></md-icon>
+                                [[!vm.fullscreenEnabled ? 'Tam Ekran Kullan' : 'Tam Ekrandan Çık']]
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item >
+                            <md-button ng-disabled="true">
+                                <md-icon class="material-icons">add_a_photo</md-icon>
+                                Profil Resmini Değiştir
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-disabled="true">
+                                <md-icon class="material-icons">account_circle</md-icon>
+                                Profilime Git
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-click="vm.logOut()" layout="row" layout-align="center center">
+                                <md-icon class="material-icons">lock</md-icon>
+                                Çıkış Yap
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu class="md-secondary" md-offset="0 50" md-position-mode="target-right target">
+                    <md-button class="md-icon-button full-height md-menu-origin relative"
+                               ng-class="{'erp-pulse md-warn md-raised md-hue-2': vm.notifications.length>0}"
+                               ng-click="$mdMenu.open()">
+                        <md-icon class="material-icons">notifications</md-icon>
+                        <div class="absoluteCounter" ng-if="vm.notifications.length>0">
+                            [[vm.notifications.length]]
+                        </div>
+                    </md-button>
+                    <md-menu-content width="2" style="max-height: 300px!important;" class="reset-padding">
+                        <md-list class="notificationBar" flex 
+                                 ng-switch="vm.notifications.length>0">
+                            <md-subheader class="md-no-sticky border-bottom border-3e">Bildirimler</md-subheader>
+                            <md-list-item ng-switch-when="true" 
+                                          class="md-2-line md-long-text dashboard-message-list" 
+                                          ng-repeat="(mIndex, message) in vm.notifications | orderBy:'-created_date'">
+                                <div class="md-list-item-text">
+                                    <!-- Notification Item-->
+                                </div>
+                                <md-button class="md-secondary md-icon-button md-accent" md-prevent-menu-close
+                                           ng-click="null" aria-label="read">
+                                    <md-icon class="material-icons">visibility_off</md-icon>
+                                    <md-tooltip md-direction="left">Okundu olarak işaretle</md-tooltip>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item ng-switch-default class="md-2-line dashboard-message-list">
+                                <p layout="column" class="font14 const themeGreyColor padding8 margin-top10"
+                                   layout-align="center center">
+                                    <span>Hiç bildirim yok</span>
+                                    <span>veya</span>
+                                    <span>hepsi okunmuş</span>
+                                </p>
+                            </md-list-item>
+                        </md-list>
+                        <div layout="row" class="full-width">
+                            <md-button class="full-width md-warn md-raised md-hue-2" md-prevent-menu-close
+                                       ng-click="readAllNotifications($mdMenu)" 
+                                       ng-if="vm.notifications.length>0">
+                                Hepsini Okundu Yap
+                            </md-button>
+                            <md-button class="full-width md-accent" 
+                                       ng-click="$mdMenu.close()">
+                                Kapat
+                            </md-button>
+                        </div>
+                    </md-menu-content>
+                </md-menu>
+            </md-menu-bar>
+        </div>
+    </div>
+</md-toolbar>

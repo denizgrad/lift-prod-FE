@@ -1,0 +1,98 @@
+#SidenavContainer{
+    max-width: 100px;    
+}
+
+md-sidenav#left-menu{
+    background-color: #445a7a; /*Mavi Tema iken 2b303b kullanılmıştı */
+}
+#menu-list{
+    list-style: none;
+    position: relative;
+    width: 100px;
+    opacity: 1;
+    
+}
+#menu-list > li:not(:last-child){
+    border-bottom: none!important;
+}
+#menu-list > li{    
+    border-bottom: 1px solid #383e4d; /*Mavi Tema iken 1e2229 kullanılmıştı*/
+    border-top: 1px solid #383e4d;
+    display: block;
+    max-height: 90px;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    font-size: 0.8125rem;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.75);
+    cursor: pointer;
+    -webkit-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+    position: relative;
+    align-items: center;
+    vertical-align: middle;
+}
+#menu-list > li.active,#menu-list > li:hover{
+    background: #778899; /* Mavi Tema iken 26282e kullanılmıştı*/
+    color: #fff;
+}
+#menu-list > li a{
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 12px 0;
+    text-decoration: none;
+    color: inherit;
+}
+#menu-list md-icon, #menu-list i{
+    color: #fff; /* Mavi Tema iken 9db0bf kullanılmıştı*/
+    margin-bottom:8px;
+    font-size:1.8em;
+}
+.desktopControl{
+    position:absolute;
+    top:50%;
+    right:-6px;
+    z-index:65;
+    color: #f1f1f1;
+}
+.desktopControl i {
+    cursor:pointer;
+    outline-color:transparent!important;
+    font-size:2em;
+}
+.desktopControl.closed{
+    right:-17px;
+    overflow:visible;
+}
+.desktopControl.closed i{
+    ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+    -webkit-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    transform: rotate3d(0,1,0,180deg);
+    color:#2b303b;
+}
+@media only screen and (min-width: 1024px) {
+    .soft-scrollbar::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: rgba(250, 250, 250, 0);
+    }
+
+    .soft-scrollbar::-webkit-scrollbar {
+        width: 0;
+        transition: all 0.2s linear;
+        background-color: #f5f5f5;
+    }
+
+    .soft-scrollbar::-webkit-scrollbar-thumb {
+        background-color: var(--color-primary);
+        /*border-left: 1px solid #fff;*/
+    }
+
+    .soft-scrollbar:hover::-webkit-scrollbar{
+        width: 5px;
+    }
+}

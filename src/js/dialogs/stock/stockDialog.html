@@ -1,0 +1,294 @@
+<md-dialog aria-label="Stok Malzeme Güncelleme" flex="90"
+           ng-class="$root.$mdMedia('gt-sm') ? 'BgC-Transparent' : ''" xmlns="">
+    <md-toolbar md-theme="default" ng-class="$root.$mdMedia('gt-sm') ? '' :'md-whiteframe-1dp'">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="md-heading">Stok Malzemesi</span>
+            <md-button class="md-icon-button" ng-click="vm.cancelDialog()">
+                <md-icon aria-label="Kapat" class="material-icons">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-progress-linear ng-show="vm.promises.createOrUpdate"
+                        md-mode="indeterminate"
+                        class="md-warn">
+    </md-progress-linear>
+    <div ng-show="vm.error.hasError"
+         class="padding8 font16 const regular BG-md-content border-dotted-bottom border-d3">
+        <div class="themeWarnColor">
+            <span ng-bind="vm.error.detail"></span>
+        </div>
+    </div>
+    <md-dialog-content ng-if="vm.initDone" layout="column" ng-cloak>
+        <md-content class="md-padding whiteBg">
+            <md-progress-circular ng-show="vm.promises.fetching" md-diameter="100" class="margin-auto md-primary">
+            </md-progress-circular>
+            <form name="stockForm" ng-show="!vm.promises.fetching">
+            <div layout="row" layout-xs="column">
+                <md-autocomplete
+                        class="full-width"
+                        md-no-cache="vm.acmpCategorySettings.no_cache"
+                        md-selected-item="vm.acmpBrandSettings.selected_item"
+                        md-selected-item-change="vm.acmpBrandSettings.onChange(item)"
+                        md-search-text="vm.acmpBrandSettings.searchText"
+                        md-items="item in vm.acmpBrandSettings.fetchRecords(vm.acmpBrandSettings, vm.acmpBrandSettings.searchText)"
+                        md-item-text="item.name"
+                        md-input-name="stock_key_brand"
+                        md-dropdown-position="bottom"
+                        md-floating-label="Marka"
+                        md-menu-class="autocomplete-custom-template"
+                >
+                    <md-item-template>
+                    <span class="item-title">
+                        <md-icon class="material-icons md-accent">
+                            <i class="fa fa-tag" aria-hidden="true"></i>
+                        </md-icon>
+                        <span class="themeDarkColor"
+                              md-highlight-text="vm.acmpBrandSettings.searchText"
+                              md-highlight-flags="i"
+                        >
+                            [[item.name]]
+                        </span>
+                    </span>
+                    </md-item-template>
+                </md-autocomplete>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width form-select-container">
+                    <label for="stock_key_category">Malzeme Cinsi</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <md-select required id="stock_key_category" name="stock_key_category"
+                               ng-model="vm.stock._key_category"
+                               ng-change="vm.onCategoryChange(vm.stock._key_category)"
+                               md-on-close="vm.searchAnalysisCategory.name=''">
+                        <md-select-header class="select-header">
+                            <input ng-model="vm.searchAnalysisCategory.name"
+                                   ng-keydown="$event.stopPropagation()"
+                                   type="search" placeholder="Filtrele..." class="filterable header-searchbox _md-text">
+                        </md-select-header>
+                        <md-option ng-repeat="_category in vm.analysisCategories | filter:vm.searchAnalysisCategory  track by _category._id.$oid"
+                                   ng-value="_category._id.$oid"
+                                   ng-selected="_category._id.$oid===vm.stock._key_category"
+                                   ng-bind="_category.name">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.stock_key_category.$error" ng-show="stockForm.stock_key_category.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width form-select-container">
+                    <label for="_key_category_item">Malzeme Tipi</label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <md-select required id="_key_category_item" name="_key_category_item"
+                               ng-disabled="!vm.stock._key_category"
+                               ng-model="vm.stock._key_category_item"
+                               md-on-close="vm.searchAnalysisItem.name=''">
+                        <md-select-header class="select-header">
+                            <input ng-model="vm.searchAnalysisItem.name"
+                                   ng-keydown="$event.stopPropagation()"
+                                   type="search" placeholder="Filtrele..." class="filterable header-searchbox _md-text">
+                        </md-select-header>
+                        <md-option ng-repeat="_category_item in vm.analysisItems | filter:vm.searchAnalysisItem track by $index"
+                                   ng-value="_category_item._id.$oid"
+                                   ng-selected="_category_item._id.$oid===vm.stock._key_category_item"
+                                   ng-bind="_category_item.name">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.stock_key_category.$error" ng-show="stockForm.stock_key_category.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-card ng-if="vm.stock.use_analysis_settings"
+                     class="reset-margin-LR margin-bottom10 margin-InverseTop10 BG-blue-linear-light">
+                <!--<div soft-compile="::vm.templeteHtml"></div>-->
+                <category-form-parts form-scope="stockFrom"
+                                     dict-scope="vm.stock.analysis_settings"
+                                     category-key="vm.analysisCategoryKey">
+                </category-form-parts>
+            </md-card>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="stockname">Malzeme Adı</label>
+                    <md-icon><i class="fa fa-folder-o" aria-hidden="true"></i></md-icon>
+                    <input id="stockname" type="text" name="stockname" required ng-model="vm.stock.name"/>
+                    <div ng-messages="stockForm.stockname.$error" ng-show="stockForm.stockname.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width">
+                    <label for="currency_unit">Para Birimi</label>
+                    <md-icon><i class="fa fa-money" aria-hidden="true"></i></md-icon>
+                    <md-select id="currency_unit" name="currency_unit" ng-model="vm.stock._key_currency" required>
+                        <md-option ng-repeat="_currency in $root.currencies track by $index"
+                                   ng-value="_currency._id.$oid"
+                                   ng-bind="_currency.name">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.currency_unit.$error" ng-show="stockForm.currency_unit.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="barcode">Barkod</label>
+                    <md-icon><i class="fa fa-barcode" aria-hidden="true"></i></md-icon>
+                    <input id="barcode" md-autofocus type="text" name="barcode" ng-model="vm.stock.barcode"/>
+                    <div ng-messages="stockForm.barcode.$error" ng-show="stockForm.barcode.$dirty"
+                         role="alert">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width">
+                    <label for="stockcode">Stok Kodu</label>
+                    <md-icon class="material-icons">view_module</md-icon>
+                    <input id="stockcode" type="text" name="stock_code" required ng-model="vm.stock.stock_code"/>
+                    <div ng-messages="stockForm.stock_code.$error" ng-show="stockForm.stock_code.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width">
+                    <label for="buying_price">Alış Fiyatı</label>
+                    <md-icon><i class="fa fa-minus-circle" aria-hidden="true"></i></md-icon>
+                    <input required
+                           id="buying_price"
+                           type="number"
+                           min="0.000"
+                           name="buying_price"
+                           ng-model="vm.stock.buying_price"/>
+                    <div ng-messages="stockForm.buying_price.$error" ng-show="stockForm.buying_price.$dirty"
+                         role="alert">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width">
+                    <label for="list_price">Satış Fiyatı</label>
+                    <md-icon><i class="fa fa-plus-circle" aria-hidden="true"></i></md-icon>
+                    <input required
+                           id="list_price"
+                           type="number"
+                           min="0.000"
+                           name="list_price"
+                           ng-model="vm.stock.list_price"/>
+                    <div ng-messages="stockForm.list_price.$error" ng-show="stockForm.list_price.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-xs="column">
+                <md-input-container class="full-width form-select-container">
+                    <label for="unit_type" ng-bind="::vm.formOptions.unitTypes.label"></label>
+                    <md-icon><i class="fa fa-cube" aria-hidden="true"></i></md-icon>
+                    <md-select id="unit_type" name="unit_type" ng-model="vm.stock.unit_type" required>
+                        <md-option ng-repeat="unit in ::vm.formOptions.unitTypes.items track by unit.id"
+                                   ng-init="::vm.checkOptionIsSelected('unit_type', unit)"
+                                   ng-value="::unit.id"
+                                   ng-bind="::unit.display">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.unit_type.$error" ng-show="stockForm.unit_type.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width form-select-container">
+                    <label for="main_unit_type" ng-bind="::vm.formOptions.subUnitTypes.label"></label>
+                    <md-icon><i class="fa fa-bookmark-o" aria-hidden="true"></i></md-icon>
+                    <md-select id="main_unit_type" name="main_unit_type" ng-model="vm.stock.main_unit_type" required>
+                        <md-option ng-repeat="mainUnit in vm.formOptions.subUnitTypes.items | filter:{parent_id:vm.stock.unit_type} track by $index"
+                                   ng-selected="vm.stock.main_unit_type===mainUnit.id"
+                                   ng-value="mainUnit.id"
+                                   ng-bind="mainUnit.display">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.main_unit_type.$error" ng-show="stockForm.main_unit_type.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="full-width form-select-container">
+                    <label for="stock_type" ng-bind="::vm.formOptions.stockTypes.label"></label>
+                    <md-icon><i class="fa fa-star-half" aria-hidden="true"></i></md-icon>
+                    <md-select id="stock_type" name="stock_type" ng-model="vm.stock.stock_type" required>
+                        <md-option ng-repeat="stockType in ::vm.formOptions.stockTypes.items track by $index"
+                                   ng-init="::vm.checkOptionIsSelected('stock_type', stockType)"
+                                   ng-value="::stockType.id"
+                                   ng-bind="::stockType.display">
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="stockForm.stock_type.$error" ng-show="stockForm.stock_type.$dirty">
+                        <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="column" layout-align="center center">
+                <md-input-container class="full-width">
+                    <label for="description">Açıklama</label>
+                    <md-icon><i class="fa fa-comment" aria-hidden="true"></i></md-icon>
+                    <textarea id="description" name="description"
+                              ng-model="vm.stock.description"
+                              md-maxlength="360">
+                    </textarea>
+                    <div ng-messages="stockForm.description.$error"  ng-show="stockForm.description.$dirty">
+                        <div ng-message="md-maxlength">360 karakter sınırını aştınız!</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout="column" layout-align="center center">
+                <div layout="row" flex class="full-width">
+                    <md-input-container class="full-width margin-bottom8">
+                        <label for="low_stock_alarm">Kritik Seviye Adet</label>
+                        <md-icon class="material-icons">notifications</md-icon>
+                        <input id="low_stock_alarm" name="low_stock_alarm" type="number" required
+                               ng-model="vm.stock.low_stock_alarm" min="0"/>
+                        <div ng-messages="stockForm.low_stock_alarm.$error"
+                             ng-show="stockForm.low_stock_alarm.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                            <div ng-message="min">Kritik Seviye alanı 0(Sıfır)' dan küçük olamaz</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width margin-bottom8">
+                        <label for="vat_rate">KDV Oranı</label>
+                        <md-icon class="material-icons">notifications</md-icon>
+                        <input id="vat_rate" name="vat_rate" type="number" required
+                               ng-model="vm.stock.vat_rate" min="0"/>
+                        <div ng-messages="stockForm.vat_rate.$error" ng-show="stockForm.vat_rate.$dirty">
+                            <div ng-message="required">Bu alanın doldurulması zorunludur!</div>
+                            <div ng-message="min">KDV oranı 0(Sıfır)' dan küçük olamaz</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="full-width margin-bottom8">
+                        <label for="max_stock_alarm">Maksimum Stok Adedi</label>
+                        <md-icon class="material-icons">notifications</md-icon>
+                        <input id="max_stock_alarm" name="max_stock_alarm" type="number"
+                               ng-model="vm.stock.max_stock_alarm" min="0"/>
+                        <div ng-messages="stockForm.max_stock_alarm.$error"
+                             ng-show="stockForm.max_stock_alarm.$dirty">
+                            <div ng-message="min">Maksimum stok adedi 0(Sıfır)' dan küçük olamaz</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <span class="font14 const full-width left">
+                    <strong>Kritik Seviye Adet</strong> bilgisi stoğunuz azaldığı zaman bilgilendirme yapılmasını sağlar
+                </span>
+            </div>
+            </form>
+        </md-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <div>
+                <md-button ng-if="vm.analysisCategoryKey" class="md-warn"
+                           ng-class="{'md-raised': vm.stock.use_analysis_settings===true}"
+                           ng-click="vm.stock.use_analysis_settings=!vm.stock.use_analysis_settings">
+                    <md-icon class="material-icons"
+                             ng-class="{'md-warn md-raised': vm.stock.use_analysis_settings===false}">visibility</md-icon>
+                    Özellik Tanımla
+                </md-button>
+            </div>
+            <md-button class="md-primary" ng-click="vm.saveBtnOptions.onClick()"
+                       ng-disabled="!stockForm.$valid || vm.promises.fetching || vm.promises.createOrUpdate">
+                [[::vm.saveBtnOptions.label]]
+            </md-button>
+        </md-dialog-actions>
+    </md-dialog-content>
+</md-dialog>

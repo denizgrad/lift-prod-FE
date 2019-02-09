@@ -1,0 +1,155 @@
+
+.highlight{
+    background: #d6f5ff;
+}
+.full-width, erptable{
+    width: 100%;
+}
+.full-height{
+    height:100%;
+}
+.relative{
+    position:relative;
+}
+.absolute:not(.clearStyle){
+    position: absolute !important;
+}
+.fixed:not(.clearStyle){
+    position: fixed!important;
+}
+.block:not(.hide){
+    display:block !important;
+}
+.inline-block:not(.hide){
+    display: inline-block!important;
+}
+.overflow-hidden{
+    overflow:hidden;
+}
+/* Cursor Styles */
+.cursorPointer{
+    cursor:pointer;
+}
+.cursorDisabled{
+    cursor: no-drop;
+}
+.cursorHelp{
+    cursor: help;
+}
+.outlineNone{
+    outline:none;
+}
+.white-space-normal{
+    white-space: normal!important;
+}
+/* z-indexes */
+.z-index101{
+    z-index:101;
+}
+/* Custom Background Color Settings */
+.BgC-Transparent{
+    background:transparent!important;
+}
+.BG-login-grey{
+    background: var(--color-login-grey);
+}
+.BG-login-linear{
+    background: #0b80b5;
+    background: -webkit-linear-gradient(-45deg,#0b80b5,hsl(199, 77%, 59%) 86%,rgb(102, 207, 255) 99%);
+    background: linear-gradient(-45deg,#0b80b5,hsl(199, 77%, 59%) 86%,rgb(102, 207, 255) 99%);
+}
+.BG-logo-header-linear{
+    background: rgb(68,90,122);
+    background: -webkit-linear-gradient(to right,#fff,whitesmoke 13%,rgb(68,90,122) 25%)!important;
+    background: linear-gradient(to right,#fff,whitesmoke 13%,rgb(68,90,122) 25%)!important
+}
+.BG-blue-linear{
+    background: #549eff;
+    background : linear-gradient(to right, #549eff, #4c87ea) !important;
+}
+.BG-dark-blue-linear{
+    background: #455a64;
+    background : linear-gradient(-56deg,#445a7a,#455a64)
+}
+.BG-cli{
+    background: rgb(168, 179, 189);
+}
+.BG-blue-linear *:not(.clearStyle),
+.BG-purple-linear *:not(.clearStyle),
+.BG-error-linear *:not(.clearStyle),
+.BG-green-linear *:not(.clearStyle),
+.BG-blue-purple-linear *:not(.clearStyle){
+    color:white;
+}
+.BG-dark-purple-linear{
+    background: rgb(115, 98, 138);
+    background: -webkit-linear-gradient(-54deg,#e44b8e,rgb(115, 98, 138))!important;
+    background: linear-gradient(-54deg,#e44b8e,rgb(115, 98, 138))!important;
+}
+.BG-blue-purple-linear{
+    background: #e44b8e;
+    background: -webkit-linear-gradient(-54deg,#e44b8e,#03a9f4)!important;
+    background: linear-gradient(-54deg,#e44b8e,#03a9f4)!important;
+}
+.BG-grey-linear{
+    background: #c7c3c3;
+    background: linear-gradient(-45deg, #c7c3c3, #e4e2e2) !important;
+}
+.BG-purple-linear{
+    background: #e340ff;
+    background: linear-gradient(-45deg, #e340ff, #9C27B0) !important;
+}
+.BG-green-linear{
+    background: #48fd46;
+    background: linear-gradient(-45deg, #48fd46, #07d904) !important;
+}
+.BG-orange-linear{
+    background: #ffbb40;
+    background: linear-gradient(45deg, #ffbb40, rgba(255, 157, 0, 0.99)) !important;
+}
+.BG-dark-orange-linear{
+    background: rgb(247, 94, 37);
+    background: -webkit-linear-gradient(45deg, var(--color-dark-orange), rgba(255, 132, 0, 0.99))!important;
+    background: linear-gradient(45deg, var(--color-dark-orange), rgba(255, 132, 0, 0.99))!important
+}
+.BG-blue-linear-light{
+    background: #6a92cc29;
+    background: linear-gradient(45deg, #6a92cc29, rgba(55, 146, 189, 0.15)) !important
+}
+.BG-error-linear{
+    background: #c51a32;
+    background: linear-gradient(45deg, #c51a32, #ff4f2b) !important;
+}
+.BG-White{
+    background: white!important;
+}
+.BG-md-content{
+    background: #fafafa!important;
+}
+.Bg-Green{
+    background: #1ed418!important;
+}
+.Bg-SolidGreen{
+    background: rgb(51, 153, 119)!important;
+}
+.Bg-LightGrey2{
+    background: rgb(245, 245, 245);
+}
+.Bg-LightGrey{
+    background: rgb(238, 238, 238)!important;
+}
+.Bg-Red{
+    background: #de0f0f;
+}
+.Bg-Orange{
+    background: var(--color-orange);
+}
+.Bg-dark-orange{
+    background: var(--color-dark-orange);
+}
+.Bg-Blue, .md-button.Bg-Blue{
+    background: var(--color-blue);
+}
+.Bg-ToolBarBlue{
+    background: rgb(69,90,100)!important;
+}

@@ -1,0 +1,40 @@
+<md-content ng-cloak  layout-fill layout="column" class="BG-login-grey full-height">
+    <div layout-fill class="full-width visible login-page-container"
+         layout="column" layout-align="center center">
+        <div layout="row" layout-align="center center" class="full-width">
+            <div class="login-container padding5" layout="column" layout-gt-sm="row">
+                <md-card id="image-container" class="reset-margin md-whiteframe-z2"
+                         layout="row" layout-align="center center">
+                    <div class="logo-container">
+                        <h1 style="color: #eee">LIFTNEC</h1>
+                    </div>
+                </md-card>
+                <md-card id="form-container" class="md-padding"
+                         ng-class="vm.$mdMedia('gt-sm') ? 'animated fadeInLeft' : 'animated fadeInDown'">
+                    <!--
+                    <div class="tab-container font22 themeGreyColor margin-BT10"
+                         layout="row" layout-align="space-around center">
+                        <span class="tab" ng-click="changeView('login')"
+                              ng-class="vm.view=='login'? 'tab-active':''">
+                            Giriş Yap
+                        </span>
+                    </div>
+                    -->
+                    <div class="relative visible">
+                        <!-- Login section -->
+                        <login-form></login-form>
+                        <!--
+                        <span ng-click="vm.view='reset'"
+                              class="login-puprle-color margin-top8 cursorPointer uppercase outlineNone">
+                            Şifremi Unuttum
+                        </span>
+                        -->
+                    </div>
+                </md-card>
+            </div>
+        </div>
+        <p class="full-width f-f-mono font16 center themeGreyColor regular margin-BT32">
+            Telif hakkı &copy; 2018 - <a href="http://www.softnecbilisim.com" target="_blank" class="f-f-mono">softnecbilisim.com</a>. Tüm hakları mahfuzdur.
+        </p>
+    </div>
+</md-content>

@@ -1,0 +1,54 @@
+md-toolbar#navbar{
+    min-height:40px !important;
+    max-height:40px !important;
+    z-index:4;
+}
+md-toolbar#navbar > *:not(.clearStyle){
+    font-weight: 500;
+    text-decoration: none;
+    font-size:13px;
+}
+md-toolbar#navbar .md-toolbar-tools > *, md-toolbar#navbar .md-button{
+    height:100%;
+}
+#logoText{
+    font-size:16px;
+    font-weight: 500;
+}
+.headerLogo{
+    max-height: 25px;
+    min-width: 30px;
+    height:100%;
+    width:auto;
+}
+.md-button.md-raised .absoluteCounter{
+    background: inherit;
+    top: 0;
+    right: -5px;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: block;
+    line-height: 18px;
+    text-align: center;
+    position: absolute;
+}
+.md-dense :not(.md-dense-disabled) .md-button:not(.md-dense-disabled), .md-dense > .md-button:not(.md-dense-disabled) {
+    min-height: 40px!important;
+}
+.header__user-avatar{
+    min-width:30px;
+    min-height:30px;
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+}
+/* IF screen width lower than 600px*/
+@media (max-width:599px){
+    .headerLogo{
+        max-width: 105px!important;
+    }
+    md-toolbar md-menu-bar{
+        padding: 0 8px!important;
+    }
+}
